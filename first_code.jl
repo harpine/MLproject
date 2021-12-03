@@ -2,7 +2,7 @@ using Pkg
 Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 
 using MLCourse
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 coerce!(training_data, :precipitation_nextday => Multiclass)
@@ -12,7 +12,8 @@ training_dropped_y = training_dropped.precipitation_nextday
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
 training_filled_y = training_dropped.precipitation_nextday
-print(training_data)
+
+Random.seed!(3)
 """
 @df training_filled corrplot([:ABO_sunshine_1 :ABO_delta_pressure_1 :ABO_radiation_1 :ABO_wind1 :ABO_wind_direction_1],
                      grid = false, fillcolor = cgrad(), size = (700, 700))
