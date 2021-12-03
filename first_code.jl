@@ -6,14 +6,18 @@ using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 coerce!(training_data, :precipitation_nextday => Multiclass)
-training_wo_missing = dropmissing(training_data)
+training_dropped = dropmissing(training_data)
+training_dropped_x = select(training_dropped, Not(:precipitation_nextday))
+training_dropped_y = training_dropped.precipitation_nextday
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
-
+training_filled_x = select(training_filled, Not(:precipitation_nextday))
+training_filled_y = training_dropped.precipitation_nextday
+print(training_data)
 """
-@df training_wo_missing corrplot([:ABO_sunshine_1 :ABO_delta_pressure_1 :ABO_radiation_1 :ABO_wind1 :ABO_wind_direction_1],
-                     grid = false, fillcolor = cgrad(), size = (700, 600))
-
+@df training_filled corrplot([:ABO_sunshine_1 :ABO_delta_pressure_1 :ABO_radiation_1 :ABO_wind1 :ABO_wind_direction_1],
+                     grid = false, fillcolor = cgrad(), size = (700, 700))
 """
+
 
 ## VISUALIZATION:
 # datframe on pluto - not on git
