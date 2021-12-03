@@ -5,10 +5,14 @@ using MLCourse
 using Plots, DataFrames, Random, CSV, MLJ, MLJLinearModels
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
-training_data = coerce()String.(training_data.label, Binary)
+coerce!(training_data, :precipitation_nextday => Multiclass)
 training_wo_missing = dropmissing(training_data)
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 
+"""
+weather corrplot([:ABO_sunshine_1 :ABO_delta_pressure_1 :ABO_radiation_1 :ABO_wind1 :ABO_wind_direction_1],
+                     grid = false, fillcolor = cgrad(), size = (700, 600))
+"""
 
 
 ## VISUALIZATION:
@@ -20,8 +24,8 @@ training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), tra
 # standardization needed?  (série 6b)
 # vizualisation of conditional output ? (maybe, to look)
 
-
 ## MACHINES: 
+#naming: ex: mach_logistic_class_m or mach_logistic_class_f
 
 # -> create machine, 
 #graph prediction/ground truths, 
@@ -50,6 +54,5 @@ training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), tra
 # NeuralNetworkClassifier (MLJFlux)- série 8 (CLassification with MLPs)
 # Support Vector Machines 
 # 
-
 
 # what is MultinomialClassifier , is it useful?
