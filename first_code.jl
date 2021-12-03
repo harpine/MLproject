@@ -1,18 +1,3 @@
-using Pkg
-Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
-
-using MLCourse
-using Plots, DataFrames, Random, CSV, MLJ, MLJLinearModels
-
-training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
-training_data = coerce()String.(training_data.label, Binary)
-training_wo_missing = dropmissing(training_data)
-training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
-
-
-
-
-
 ## VISUALIZATION:
 # datframe on pluto - not on git
 # plot rain in function of different predictors
@@ -45,6 +30,10 @@ training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), tra
 # vector features - série 6b
 # gradient descent (stochastic) for logistic regression (opt = ADAMW() or ADAM() ? ) - série 7
 # early stopping - série 7
+
+logistic_regression_missing = machine(LogisticClassifier(penalty = :none), training, trainin) |> fit!
+
+
 
 ##NONLINEAR
 
