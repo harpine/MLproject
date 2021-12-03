@@ -2,7 +2,7 @@ using Pkg
 Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 
 using MLCourse
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels
 
 data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 training_data = data[1:1000,:]
