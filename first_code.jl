@@ -11,8 +11,6 @@ training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), tra
 
 
 
-
-
 ## VISUALIZATION:
 # datframe on pluto - not on git
 # plot rain in function of different predictors
