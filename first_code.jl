@@ -5,9 +5,10 @@ using MLCourse
 using Plots, DataFrames, Random, CSV, MLJ, MLJLinearModels
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
+training_data = coerce()String.(training_data.label, Binary)
 training_wo_missing = dropmissing(training_data)
-print(size(training_data))
-print(size(training_wo_missing))
+training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
+
 
 
 
