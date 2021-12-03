@@ -2,6 +2,14 @@ using Pkg
 Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 
 using MLCourse
+using Plots, DataFrames, Random, CSV, MLJ, MLJLinearModels
+
+training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
+training_wo_missing = dropmissing(training_data)
+print(size(training_data))
+print(size(training_wo_missing))
+
+
 
 
 ## VISUALIZATION:
