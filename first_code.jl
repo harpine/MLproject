@@ -4,9 +4,7 @@ Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 using MLCourse
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels
 
-data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
-training_data = data[1:1000,:]
-validation_data = data
+training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 coerce!(training_data, :precipitation_nextday => Multiclass)
 training_dropped = dropmissing(training_data)
 training_dropped_x = select(training_dropped, Not(:precipitation_nextday))
