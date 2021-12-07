@@ -26,6 +26,10 @@ Manifest.toml
 Miniproject_BIO_322.pdf
 
 datasets/*
+outputs/*
+*.csv
+
+*.orig
 
 #annotated xournal_files
 *.xopp
