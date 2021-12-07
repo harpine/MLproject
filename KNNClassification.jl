@@ -16,13 +16,12 @@ mach_KNN_class_d = machine(tuned_model_KNN_class,
 # bbest = rep.best_model.K
 
 pred_KNN_class_d = predict_mode(mach_KNN_class_d, training_dropped_x)
-proba_KNN_class_d = predict(mach_KNN_class_d, training_dropped_x)
 
 err_rate_KNN_class_d = mean(pred_KNN_class_d .!= training_dropped_y)
 
 print(err_rate_KNN_class_d)
 
 
-#= proba_KNN_class_d_test = predict(mach_KNN_class_d, test_data)
-DataFrame(id = Vector(1:), precipitation_nextday = broadcast(pdf, proba_KNN_class_d_test, true))
-print(broadcast(pdf, proba_KNN_class_d_test, true)) =#
+proba_KNN_class_d = predict(mach_KNN_class_d, test_data)
+prediction_KNN_class_df = DataFrame(id = 1:nrow(test_data), precipitation_nextday = broadcast(pdf, proba_KNN_class_d, true))
+write_csv("KNN_classifier.csv", prediction_KNN_class_df)
