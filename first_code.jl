@@ -2,7 +2,7 @@ using Pkg
 Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 
 using MLCourse
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions,  ScientificTypesBase
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 coerce!(training_data, :precipitation_nextday => Multiclass)
