@@ -1,8 +1,9 @@
 using Pkg
 Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
+#Pkg.add("CategoricalDistributions")
 
 using MLCourse
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions,  ScientificTypesBase
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 coerce!(training_data, :precipitation_nextday => Multiclass)
@@ -17,8 +18,14 @@ training_filled_y = training_dropped.precipitation_nextday
 #Test set
 test_data = CSV.read(joinpath(@__DIR__, "datasets", "testdata.csv"), DataFrame)
 coerce!(test_data, :precipitation_nextday => Multiclass)
-test_data = MLJ.transform(fit!(machine(FillImputer(), test_data)), test_data)
+test_data = MLJ.transform(fit!(machine(FillImputer(), test_data)), test_data) # We have to fill the missing datas, because we want a prediction for all existing datas.
 
+output_folder = "outputs"
+mkpath(output_folder)
+
+function write_csv(output_file_name, dataframe)
+    CSV.write(joinpath(output_folder, output_file_name), dataframe)
+end
 
 Random.seed!(3)
 """
