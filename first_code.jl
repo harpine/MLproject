@@ -1,24 +1,32 @@
 using Pkg
 Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 #Pkg.add("CategoricalDistributions")
+#Pkg.add("CategoricalArrays")
 
 using MLCourse
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
+
 coerce!(training_data, :precipitation_nextday => Multiclass)
 training_dropped = dropmissing(training_data)
 training_dropped_x = select(training_dropped, Not(:precipitation_nextday))
 training_dropped_y = training_dropped.precipitation_nextday
+standardizer_mach = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2)
+training_dropped_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
+
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
 training_filled_y = training_dropped.precipitation_nextday
+#training_filled_x_std = MLJ.transform(fit!(machine(Standardizer(), training_filled_x)), training_filled_x) -> à réfléchir si on veut train un nouveau sur les filled ou utiliser l'autre. et si oui, lequel on utilise pour standardiser le test.
 
+#write_csv("test_std.csv", training_filled_x_std)
 
 #Test set
 test_data = CSV.read(joinpath(@__DIR__, "datasets", "testdata.csv"), DataFrame)
 coerce!(test_data, :precipitation_nextday => Multiclass)
 test_data = MLJ.transform(fit!(machine(FillImputer(), test_data)), test_data) # We have to fill the missing datas, because we want a prediction for all existing datas.
+test_data_std = MLJ.transform(standardizer_mach, test_data)
 
 output_folder = "outputs"
 mkpath(output_folder)
@@ -69,9 +77,9 @@ Random.seed!(3)
 
 ##NONLINEAR
 
-# Leanred features vector - série 8
-# NeuralNetworkClassifier (MLJFlux)- série 8 (CLassification with MLPs)
-# Support Vector Machines 
+# Learned features vector - série 8
+# NeuralNetworkClassifier (MLJFlux)- série 8 (CLassification with MLPs) -> Aline 
+# Support Vector Machines - série 9 -> Helena
 # 
 
 # what is MultinomialClassifier , is it useful?
