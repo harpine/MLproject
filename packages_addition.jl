@@ -1,0 +1,13 @@
+
+using Pkg
+Pkg.activate(pwd())
+Pkg.add("Plots")
+Pkg.add("StatsPlots")
+Pkg.add("DataFrames")
+Pkg.add("Random")
+Pkg.add("CSV")
+Pkg.add("MLJ")
+Pkg.add("MLJLinearModels")
+Pkg.add("NearestNeighborModels")
+Pkg.add("CategoricalDistributions")
+Pkg.add("CategoricalArrays")
