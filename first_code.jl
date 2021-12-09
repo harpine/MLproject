@@ -1,9 +1,5 @@
 using Pkg
-Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
-#Pkg.add("CategoricalDistributions")
-#Pkg.add("CategoricalArrays")
-
-using MLCourse
+Pkg.activate(pwd())
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
@@ -12,7 +8,7 @@ coerce!(training_data, :precipitation_nextday => Multiclass)
 training_dropped = dropmissing(training_data)
 training_dropped_x = select(training_dropped, Not(:precipitation_nextday))
 training_dropped_y = training_dropped.precipitation_nextday
-standardizer_mach = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2)
+standardizer_mach = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2) #features ignore to retrieve too small variances
 training_dropped_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
 
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
