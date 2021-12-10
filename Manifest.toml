@@ -506,6 +506,18 @@ git-tree-sha1 = "f6250b16881adf048549549fba48b1161acdac8c"
 uuid = "c1c5ebd0-6772-5130-a774-d5fcae4a789d"
 version = "3.100.1+0"
 
+[[LIBLINEAR]]
+deps = ["Libdl", "SparseArrays", "liblinear_jll"]
+git-tree-sha1 = "81e40115c23acca9dfa30944050096b958271e5a"
+uuid = "2d691ee1-e668-5016-a719-b2531b85e0f5"
+version = "0.6.0"
+
+[[LIBSVM]]
+deps = ["LIBLINEAR", "ScikitLearnBase", "SparseArrays", "libsvm_jll"]
+git-tree-sha1 = "01887525ee921ae3998270782160f0cdc0a42914"
+uuid = "b1bec4e5-fd48-53fe-b0cb-9723c09d164b"
+version = "0.6.0"
+
 [[LZO_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "e5b909bcf985c5e2605737d2ce278ed791b89be6"
@@ -665,6 +677,12 @@ deps = ["IterationControl", "MLJBase", "Random"]
 git-tree-sha1 = "1c94830f8927b10a5653d6e1868c20faccf57be5"
 uuid = "614be32b-d00c-4edb-bd02-1eb411ab5e55"
 version = "0.3.3"
+
+[[MLJLIBSVMInterface]]
+deps = ["LIBSVM", "MLJModelInterface", "Statistics"]
+git-tree-sha1 = "0f4916c39a5fdf18ac41596e0c44171075d8cb5f"
+uuid = "61c7150f-6c77-4bb1-949c-13197eac2a52"
+version = "0.1.4"
 
 [[MLJLinearModels]]
 deps = ["DocStringExtensions", "IterativeSolvers", "LinearAlgebra", "LinearMaps", "MLJModelInterface", "Optim", "Parameters"]
@@ -990,6 +1008,12 @@ version = "2.3.3"
 git-tree-sha1 = "185e373beaf6b381c1e7151ce2c2a722351d6637"
 uuid = "30f210dd-8aff-4c5f-94ba-8e64358c1161"
 version = "2.3.0"
+
+[[ScikitLearnBase]]
+deps = ["LinearAlgebra", "Random", "Statistics"]
+git-tree-sha1 = "7877e55c1523a4b336b433da39c8e8c08d2f221f"
+uuid = "6e75b9c4-186b-50bd-896f-2d2496a4843e"
+version = "0.5.0"
 
 [[Scratch]]
 deps = ["Dates"]
@@ -1351,11 +1375,23 @@ git-tree-sha1 = "daacc84a041563f965be61859a36e17c4e4fcd55"
 uuid = "f638f0a6-7fb0-5443-88ba-1cc74229b280"
 version = "2.0.2+0"
 
+[[liblinear_jll]]
+deps = ["Libdl", "Pkg"]
+git-tree-sha1 = "6a4a6a3697269cb2da57e698e9318972d88de0bb"
+uuid = "275f1f90-abd2-5ca1-9ad8-abd4e3d66eb7"
+version = "2.30.0+0"
+
 [[libpng_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
 git-tree-sha1 = "94d180a6d2b5e55e447e2d27a29ed04fe79eb30c"
 uuid = "b53b4c65-9356-5827-b1ea-8c7a1a84506f"
 version = "1.6.38+0"
+
+[[libsvm_jll]]
+deps = ["CompilerSupportLibraries_jll", "Libdl", "Pkg"]
+git-tree-sha1 = "ac78676ee5b1707de969d68d0a39db71f222925d"
+uuid = "08558c22-525a-5d2a-acf6-0ac6658ffce4"
+version = "3.24.0+1"
 
 [[libvorbis_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Ogg_jll", "Pkg"]
