@@ -1,6 +1,6 @@
 using Pkg
 Pkg.activate(pwd())
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJFlux, Flux
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 
@@ -11,9 +11,12 @@ training_dropped_y = training_dropped.precipitation_nextday
 standardizer_mach = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2) #features ignore to retrieve too small variances
 training_dropped_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
 
+training_dropped_x_mlp = coerce!(training_dropped_x, Count => MLJ.Continuous)
+
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
 training_filled_y = training_dropped.precipitation_nextday
+
 #training_filled_x_std = MLJ.transform(fit!(machine(Standardizer(), training_filled_x)), training_filled_x) -> à réfléchir si on veut train un nouveau sur les filled ou utiliser l'autre. et si oui, lequel on utilise pour standardiser le test.
 
 #write_csv("test_std.csv", training_filled_x_std)
@@ -32,10 +35,6 @@ function write_csv(output_file_name, dataframe)
 end
 
 Random.seed!(3)
-"""
-@df training_filled corrplot([:ABO_sunshine_1 :ABO_delta_pressure_1 :ABO_radiation_1 :ABO_wind1 :ABO_wind_direction_1],
-                     grid = false, fillcolor = cgrad(), size = (700, 700))
-"""
 
 
 ## VISUALIZATION:
