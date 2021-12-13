@@ -17,7 +17,7 @@ model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(D
                                                                                 #Dense(100,100,relu),
                                                                                 Dense(100,100,relu),
                                                                                 Dense(100, n_out, sigmoid))),
-                                                                                optimiser = ADAMW(), batch_size = 128, finaliser = sigmoid) #batch_size = 32 for server1
+                                                                                optimiser = ADAMW(), batch_size = 128) #batch_size = 32 for server1
 
 #model_Neuralnetwork = @pipeline(Standardizer(), NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 128, σ = sigmoid, dropout = 0.5), optimiser = ADAMW()), target = Standardizer())
 
