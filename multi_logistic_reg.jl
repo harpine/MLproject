@@ -63,7 +63,7 @@ tuned_model_mult_logistic_reg_l2 = TunedModel(model = model_mult_logistic_reg_l2
                                    resampling = CV(nfolds = 10),
                                    tuning = Grid(),
                                    #range = range(model_mult_logistic_reg_l2, :lambda, lower = 3e-2, upper = 3e2, scale = :log),
-                                   range = range(model_mult_logistic_reg_l2, :lambda, lower = 2 , upper = 250, scale = :log),
+                                   range = range(model_mult_logistic_reg_l2, :lambda, lower = 100 , upper = 200, scale = :log),
                                    measure = auc)
 
 
@@ -92,6 +92,8 @@ print("l2 : ", err_rate_mult_logistic_reg_f_l2, "\n")
 proba_mult_logistic_reg_f_l2 = broadcast(pdf, predict(mach_mult_logistic_reg_f_l2, test_data_std), true)
 prediction_mult_logistic_reg_f_l2_df = DataFrame(id = 1:nrow(test_data_std), precipitation_nextday = proba_mult_logistic_reg_f_l2)
 write_csv("multi_logistic_reg_tuned_l2_filled.csv", prediction_mult_logistic_reg_f_l2_df)
+
+#print("auc", auc(pred_mult_logistic_reg_f_l2, training_filled_y)) marche pas
 
 # proba_mult_logistic_reg_d_l2_train = broadcast(pdf, predict(mach_mult_logistic_reg_d_l2, training_dropped_x_std), true)
 # print(typeof(proba_mult_logistic_reg_d_l2_train))
