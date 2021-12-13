@@ -30,7 +30,7 @@ model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(D
                                                                                 #Dense(100,100,relu),
                                                                                 #Dense(100,100,relu),
                                                                                 Dense(100, n_out, sigmoid))),
-                                                                                optimiser = ADAMW(), batch_size = 128, epochs = 30) # , finaliser = NNlib.sigmoid: I can't implement it!!
+                                                                                optimiser = ADAMW(), batch_size = 32, epochs = 30) # , finaliser = NNlib.sigmoid: I can't implement it!!
 
 
 #model_Neuralnetwork = @pipeline(Standardizer(), NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 128, σ = sigmoid, dropout = 0.5), optimiser = ADAMW()), target = Standardizer())
@@ -58,13 +58,16 @@ model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(D
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,10,20]), range(model_Neuralnetwork, :lambda, lower = 2e-5 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #server3
 
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]), range(model_Neuralnetwork, :lambda, lower = 2e-6 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#server4
+
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 5), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5, 10, 15]), range(model_Neuralnetwork, :lambda, lower = 2e-1 , upper = 2, scale = :log)])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #s5-test
 
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, controls = controls, range = range(model_Neuralnetwork, :lambda, values = [0.002,0.02,0.2])) #, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, controls = controls, range = range(model_Neuralnetwork, :lambda, values = [0.002,0.02,0.2])) #, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
-mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_filled_x_std, training_filled_y), verbosity = 4)
+#mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_filled_x_std, training_filled_y), verbosity = 4)
 
 MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_tuned_server3.jlso"), mach_Neuralnetwork_tuned)
 
