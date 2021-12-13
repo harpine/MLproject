@@ -21,6 +21,7 @@ Miniproject_BIO_322.pdf
 
 datasets/*
 outputs/*
+machines/*
 *.csv
 
 *.orig
