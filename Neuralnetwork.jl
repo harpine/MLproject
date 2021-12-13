@@ -1,5 +1,5 @@
 include("./first_code.jl")
-include("loss_saver.jl")
+#include("loss_saver.jl")
 
 machines_folder = "machines"
 mkpath(machines_folder)
@@ -67,13 +67,14 @@ tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, controls = controls, range = range(model_Neuralnetwork, :lambda, values = [0.002,0.02,0.2])) #, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
-#mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_filled_x_std, training_filled_y), verbosity = 4)
+mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_filled_x_std, training_filled_y), verbosity = 4)
 
 MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_tuned_server3.jlso"), mach_Neuralnetwork_tuned)
 
-plotting_losses()
+#plotting_losses()
 
 # savefig(joinpath(DIR, "loss.png"))
+
 #predict_only_mach = machine("mach_Neuralnetwork_tuned_server1.jlso")
 #rep = report(predict_only_mach).best_history_entry.model
 #plot(predict_only_mach)
@@ -83,7 +84,7 @@ plotting_losses()
 
 #fitted_params(mach_Neuralnetwork_tuned)
 #(report(mach_Neuralnetwork_tuned))
-print("tuning parameters: ", tuned_model_Neuralnetwork.range)
+print("tuning parameters: ", tuned_model_Neuralnetwork.range, "\n")
 model_report = report(mach_Neuralnetwork_tuned).best_history_entry.model
 print(model_report)
 
