@@ -63,7 +63,7 @@ tuned_model_mult_logistic_reg_l2 = TunedModel(model = model_mult_logistic_reg_l2
                                    resampling = CV(nfolds = 10),
                                    tuning = Grid(),
                                    #range = range(model_mult_logistic_reg_l2, :lambda, lower = 3e-2, upper = 3e2, scale = :log),
-                                   range = range(model_mult_logistic_reg_l2, :lambda, lower = 200 , upper = 250, scale = :log),
+                                   range = range(model_mult_logistic_reg_l2, :lambda, lower = 2 , upper = 250, scale = :log),
                                    measure = auc)
 
 
