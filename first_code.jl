@@ -1,6 +1,6 @@
 using Pkg
 Pkg.activate(pwd())
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 
@@ -10,6 +10,8 @@ training_dropped_x = select(training_dropped, Not(:precipitation_nextday))
 training_dropped_y = training_dropped.precipitation_nextday
 standardizer_mach = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2) #features ignore to retrieve too small variances
 training_dropped_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
+
+training_dropped_x_mlp = coerce!(training_dropped_x, Count => MLJ.Continuous)
 
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
