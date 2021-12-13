@@ -7,3 +7,7 @@ include("./first_code.jl")
 # Ca marche, maintenant trouver les directions les plus intéressantes avec PCA?
 
 print(minimum(training_dropped.CHU_air_temp_1))
+
+schema(training_dropped)
+
+

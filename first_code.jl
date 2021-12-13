@@ -1,6 +1,6 @@
 using Pkg
 Pkg.activate(pwd())
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 
@@ -13,7 +13,7 @@ training_dropped_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
 
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
-training_filled_y = training_dropped.precipitation_nextday
+training_filled_y = training_filled.precipitation_nextday
 #training_filled_x_std = MLJ.transform(fit!(machine(Standardizer(), training_filled_x)), training_filled_x) -> à réfléchir si on veut train un nouveau sur les filled ou utiliser l'autre. et si oui, lequel on utilise pour standardiser le test.
 
 #write_csv("test_std.csv", training_filled_x_std)

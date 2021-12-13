@@ -69,6 +69,7 @@ probs_test_true = probs_test[1, :]
 
 
 
+
 #= 
 tuned_model_SVM = TunedModel(model = model_for_tuning,
                                 tuning =  Grid(),
@@ -78,3 +79,13 @@ tuned_model_SVM = TunedModel(model = model_for_tuning,
 tuned_mach_SVM = machine(tuned_model_SVM,
                             training_dropped_x,
                             training_dropped_y) |> fit! =#
+
+
+include("./first_code.jl")
+import LIBSVM:svmtrain, SVM, svmpredict
+
+svm_model_d = svmtrain(Matrix(training_filled_x)', training_filled_y)
+pred_test_ = svmpredict(svm_model_d, Matrix(test_data)')
+pred_train = svmpredict(svm_model_d, Matrix(training_dropped_x)')
+
+print(nrow(training_dropped_x))
