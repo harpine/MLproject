@@ -8,14 +8,18 @@ coerce!(training_data, :precipitation_nextday => Multiclass)
 training_dropped = dropmissing(training_data)
 training_dropped_x = select(training_dropped, Not(:precipitation_nextday))
 training_dropped_y = training_dropped.precipitation_nextday
-standardizer_mach = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2) #features ignore to retrieve too small variances
-training_dropped_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
+standardizer_mach_dropped = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true),  training_dropped_x)) #, verbosity = 2) #features ignore to retrieve too small variances
+training_dropped_x_std = MLJ.transform(standardizer_mach_dropped, training_dropped_x)
 
 training_dropped_x_mlp = coerce!(training_dropped_x, Count => MLJ.Continuous)
 
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
 training_filled_y = training_filled.precipitation_nextday
+standardizer_mach_filled = fit!(machine(Standardizer(), training_filled_x, verbosity = 2)) #, verbosity = 2) #features ignore to retrieve too small variances
+training_filled_x_std = MLJ.transform(standardizer_mach, training_dropped_x)
+
+
 #training_filled_x_std = MLJ.transform(fit!(machine(Standardizer(), training_filled_x)), training_filled_x) -> à réfléchir si on veut train un nouveau sur les filled ou utiliser l'autre. et si oui, lequel on utilise pour standardiser le test.
 
 #write_csv("test_std.csv", training_filled_x_std)
@@ -24,7 +28,7 @@ training_filled_y = training_filled.precipitation_nextday
 test_data = CSV.read(joinpath(@__DIR__, "datasets", "testdata.csv"), DataFrame)
 coerce!(test_data, :precipitation_nextday => Multiclass)
 test_data = MLJ.transform(fit!(machine(FillImputer(), test_data)), test_data) # We have to fill the missing datas, because we want a prediction for all existing datas.
-test_data_std = MLJ.transform(standardizer_mach, test_data)
+test_data_std = MLJ.transform(standardizer_mach_filled, test_data)
 
 output_folder = "outputs"
 mkpath(output_folder)
