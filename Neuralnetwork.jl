@@ -1,5 +1,11 @@
 include("./first_code.jl")
 
+machines_folder = "machines"
+losses_folder = "losses"
+mkpath(machines_folder)
+mkpath(losses_folder)
+
+
 # builder = MLJFlux.Short(n_hidden = 128, σ = relu)
 #optimiser = ADAM()
 
@@ -57,7 +63,7 @@ tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= 
 
 mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_dropped_x_std, training_dropped_y), verbosity = 4)
 
-MLJ.save("mach_Neuralnetwork_tuned_server3.jlso", mach_Neuralnetwork_tuned)
+MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_tuned_server3.jlso"), mach_Neuralnetwork_tuned)
 
 # update_loss(loss) = push!(losses, loss)
 # update_training_loss(losses) = push!(training_losses, losses[end])
@@ -65,7 +71,7 @@ MLJ.save("mach_Neuralnetwork_tuned_server3.jlso", mach_Neuralnetwork_tuned)
 # update_epochs(epoch) = push!(epochs, epoch)
 
 # save_control =
-#     MLJIteration.skip(Save(joinpath(DIR, "mnist.jlso")), predicate=3)
+#     MLJIteration.skip(Save(joinpath(losses_folder, "neural_network_losses.jlso")), predicate=3)
 
 # controls=[Step(2),
 #           Patience(3),
