@@ -3,7 +3,7 @@ include("./first_code.jl")
 
 machines_folder = "machines"
 mkpath(machines_folder)
-import MLJIteration # for `skip`
+#import MLJIteration # for `skip`
 
 # builder = MLJFlux.Short(n_hidden = 128, σ = relu)
 #optimiser = ADAM()
