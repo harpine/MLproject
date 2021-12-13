@@ -14,10 +14,10 @@ include("./first_code.jl")
 # A noter dans le rapport: The sigmoid function is used for the two-class logistic regression, whereas the softmax function is used for the multiclass logistic regression (a.k.a. MaxEnt, multinomial logistic regression, softmax Regression, Maximum Entropy Classifier).
 
 model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
-                                                                                Dense(100,100,relu),
+                                                                                #Dense(100,100,relu),
                                                                                 Dense(100,100,relu),
                                                                                 Dense(100, n_out, sigmoid))),
-                                                                                optimiser = ADAMW(), batch_size = 32)
+                                                                                optimiser = ADAMW(), batch_size = 128, finaliser = sigmoid) #batch_size = 32 for server1
 
 #model_Neuralnetwork = @pipeline(Standardizer(), NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 128, σ = sigmoid, dropout = 0.5), optimiser = ADAMW()), target = Standardizer())
 
@@ -38,8 +38,11 @@ model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(D
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 5), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5, 20, 100, 500, 1000]), range(model_Neuralnetwork, :lambda, lower = 2e-4 , upper = 2e4, scale = :log)]) #acceleration=CUDALibs(), tune: optimiser, 
 # submission 3 
 
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,250,500]), range(model_Neuralnetwork, :lambda, lower = 2e-3 , upper = 2e-1, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,250,500]), range(model_Neuralnetwork, :lambda, lower = 2e-3 , upper = 2e-1, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #server1
+
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [10,20,30]), range(model_Neuralnetwork, :lambda, lower = 2e-3 , upper = 2e-1, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#server2
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 5), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5, 10, 15]), range(model_Neuralnetwork, :lambda, lower = 2e-1 , upper = 2, scale = :log)])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #s5-test
@@ -47,9 +50,10 @@ tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= 
 
 mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_dropped_x_std, training_dropped_y), verbosity = 4)
 
-MLJ.save("mach_Neuralnetwork_tuned_server1.jlso", mach_Neuralnetwork_tuned)
+MLJ.save("mach_Neuralnetwork_tuned_server2.jlso", mach_Neuralnetwork_tuned)
 #predict_only_mach = machine("mach_Neuralnetwork_tuned_server1.jlso")
-#report(mach_Neuralnetwork_tuned).best_history_entry.model
+#rep = report(predict_only_mach).best_history_entry.model
+#scatter(reshape(rep.plotting.parameter_values, :), rep.plotting.measurements, xlabel = "K", ylabel = "AUC")
 
 #print("best fitted parameters: " , fitted_params(mach_Neuralnetwork_tuned).best_model, "\n")
 
@@ -68,7 +72,7 @@ print("Neural Network: ", err_rate_Neuralnewtwork, "\n")
 
 proba_Neuralnetwork = predict(mach_Neuralnetwork_tuned, test_data_std)
 prediction_Neuralnetwork_df = DataFrame(id = 1:nrow(test_data_std), precipitation_nextday = broadcast(pdf,proba_Neuralnetwork, true))
-write_csv("neural_newtork_server1.csv", prediction_Neuralnetwork_df)
+write_csv("neural_newtork_server2.csv", prediction_Neuralnetwork_df)
 
 
 # dans le rapport: pourquoi avoir choisi quelle méthode, expliquer où on a passé du temps pourquoi et comment on a résolu 
