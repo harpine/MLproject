@@ -1,6 +1,6 @@
 include("./first_code.jl")
 
-model_RandomForest = RandomForestClassifier(max_depth = 40)
+model_RandomForest = RandomForestClassifier()
 tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 tuning =  Grid(),
                                 resampling = CV(nfolds = 10),
