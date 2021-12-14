@@ -5,7 +5,7 @@ tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 tuning =  Grid(),
                                 resampling = CV(nfolds = 10),
                                 range = [range(model_RandomForest, :n_trees, lower = 1000, upper = 2000),
-                                range(model_RandomForest, :min_samples_split, lower = 20, upper = 60)],
+                                range(model_RandomForest, :min_samples_split, lower = 20, upper = 60),
                                 range(model_RandomForest, :max_depth , lower = 20, upper = 60)],
                                 measure = auc)
 
