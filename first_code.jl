@@ -33,11 +33,16 @@ test_data_std = MLJ.transform(standardizer_mach_filled, test_data)
 output_folder = "outputs"
 mkpath(output_folder)
 
+machines_folder = "machines"
+mkpath(machines_folder)
+
 function write_csv(output_file_name, dataframe)
     CSV.write(joinpath(output_folder, output_file_name), dataframe)
 end
 
 Random.seed!(3)
+
+
 """
 @df training_filled corrplot([:ABO_sunshine_1 :ABO_delta_pressure_1 :ABO_radiation_1 :ABO_wind1 :ABO_wind_direction_1],
                      grid = false, fillcolor = cgrad(), size = (700, 700))
