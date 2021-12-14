@@ -43,12 +43,16 @@ pred_RandomForest_f = predict_mode(mach_RandomForest_f, training_filled_x)
 err_rate_RandomForest_f = mean(pred_RandomForest_f .!= training_filled_y)
 print(err_rate_RandomForest_f)
 
-# Tuned values : n_trees, max_depth, min_samples_split
-print(report(mach_RandomForest_f).best_model.n_trees)
 
 # Predictions
 proba_RandomForest_f = predict(mach_RandomForest_f, test_data)
 prediction_RandomForest_f_df = DataFrame(id = 1:nrow(test_data), precipitation_nextday = broadcast(pdf, proba_RandomForest_f, true))
 write_csv("RandomForest_Classifier_filled.csv", prediction_RandomForest_f_df)
+
+
+# Tuned values : n_trees, max_depth, min_samples_split
+print("n trees: ", report(mach_RandomForest_f).best_model.n_trees)
+print("max depth: ", report(mach_RandomForest_f).best_model.max_depth)
+print("min samples split: ", report(mach_RandomForest_f).best_model.min_samples_split)
 
 MLJ.save(joinpath(machines_folder,"mach_RandomForest_filled_server1.jlso"), mach_Neuralnetwork_tuned)
