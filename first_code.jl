@@ -2,6 +2,7 @@ using Pkg
 Pkg.activate(pwd())
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux
 
+
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 
 coerce!(training_data, :precipitation_nextday => Multiclass)
@@ -36,8 +37,15 @@ mkpath(output_folder)
 machines_folder = "machines"
 mkpath(machines_folder)
 
+stat_folder = "statistics"
+mkpath(stat_folder)
+
 function write_csv(output_file_name, dataframe)
     CSV.write(joinpath(output_folder, output_file_name), dataframe)
+end
+
+function write_stat(output_file_name, dataframe)
+    CSV.write(joinpath(stat_folder, output_file_name), dataframe)
 end
 
 Random.seed!(3)
