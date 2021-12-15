@@ -25,3 +25,4 @@ gr()
 p
 
 regularized_training_filled_x_std = select(training_filled_x_std, Not(small))
+regularized_test_x_std = select(test_data_std, Not(small))
