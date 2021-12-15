@@ -60,6 +60,8 @@ mach_mult_logistic_reg_d_l1 = fit!(machine(tuned_model_mult_logistic_reg_l1, tra
 pred_mult_logistic_reg_d_l1 = predict_mode(mach_mult_logistic_reg_d_l1, training_filled_x_std)
 err_rate_mult_logistic_reg_d_l1 = mean(pred_mult_logistic_reg_d_l1 .!= training_filled_y)
 
+plot(mach_mult_logistic_reg_d_l1)
+
 print("lambda : ", report(mach_mult_logistic_reg_d_l1).best_history_entry.model.lambda, "\n")
 print("l1 : ", err_rate_mult_logistic_reg_d_l1, "\n")
 
@@ -67,6 +69,34 @@ proba_mult_logistic_reg_d_l1 = broadcast(pdf, predict(mach_mult_logistic_reg_d_l
 prediction_mult_logistic_reg_d_l1_df = DataFrame(id = 1:nrow(test_data_std), precipitation_nextday = proba_mult_logistic_reg_d_l1)
 write_csv("multi_logistic_reg_tuned_l1_filled.csv", prediction_mult_logistic_reg_d_l1_df)
 
+# plotting lasso path:
+
+import GLMNet: glmnet
+
+# weather_input = select(weather, Not(:LUZ_wind_peak))[1:end-5, :]
+# weather_output = weather.LUZ_wind_peak[6:end]
+training_fits = glmnet(Array(training_filled_x_std), training_filled_y)
+
+lambda = log.(training_fits.lambda)
+small = []
+col_names = names(training_filled_x_std)
+print("\n \n", size(col_names))
+plotly()
+p = plot()
+idx = findall(x->x<=-10.5, lambda)[1]
+for i in 1:size(training_fits.betas, 1)
+    plot!(lambda, training_fits.betas[i, :], label = col_names[i])
+    if abs(training_fits.betas[i, 73]) < 0.005
+        push!(small, col_names[i])
+    end
+end
+print(small)
+print(size(small))
+plot!(legend = :outertopright, xlabel = "log(λ)", size = (700, 400))
+gr()
+p
+
+regulareized_training_filled_x_std = select(training_filled_x_std, Not(small))
 # model_mult_logistic_reg_l2 = LogisticClassifier(penalty = :l2)
 
 # tuned_model_mult_logistic_reg_l2 = TunedModel(model = model_mult_logistic_reg_l2,
