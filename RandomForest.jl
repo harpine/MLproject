@@ -4,9 +4,9 @@ model_RandomForest = RandomForestClassifier()
 tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 tuning =  Grid(),
                                 resampling = CV(nfolds = 10),
-                                range = [range(model_RandomForest, :n_trees, lower = 1000, upper = 2000),
-                                range(model_RandomForest, :min_samples_split, values = [10,20]),
-                                range(model_RandomForest, :max_depth , values = [20,40,60])],
+                                range = [range(model_RandomForest, :n_trees, lower = 1500, upper = 2000),
+                                range(model_RandomForest, :min_samples_split, values = [5,10,15]),
+                                range(model_RandomForest, :max_depth , lower = 20, upper = 60)],
                                 measure = auc)
 
 
@@ -47,7 +47,7 @@ print(err_rate_RandomForest_f)
 # Predictions
 proba_RandomForest_f = predict(mach_RandomForest_f, test_data)
 prediction_RandomForest_f_df = DataFrame(id = 1:nrow(test_data), precipitation_nextday = broadcast(pdf, proba_RandomForest_f, true))
-write_csv("RandomForest_Classifier_filled.csv", prediction_RandomForest_f_df)
+write_csv("RandomForest_Classifier_filled_server2.csv", prediction_RandomForest_f_df)
 
 
 # Tuned values : n_trees, max_depth, min_samples_split
@@ -55,4 +55,4 @@ print("n trees: ", report(mach_RandomForest_f).best_model.n_trees)
 print("max depth: ", report(mach_RandomForest_f).best_model.max_depth)
 print("min samples split: ", report(mach_RandomForest_f).best_model.min_samples_split)
 
-MLJ.save(joinpath(machines_folder,"mach_RandomForest_filled_server1.jlso"), mach_Neuralnetwork_tuned)
+MLJ.save(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"), mach_RandomForest_f)
