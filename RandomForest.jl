@@ -65,5 +65,5 @@ MLJ.save(joinpath(machines_folder,"mach_RandomForest_filled_" * machine_subname 
 
 save_statistics_randomForest_old(machine_subname, test_mach)
 
- test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
- plot(test_mach)
+# test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
+# plot(test_mach)
