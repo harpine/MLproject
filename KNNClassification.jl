@@ -9,7 +9,7 @@ tuned_model_KNN_class = TunedModel(model = model_KNN_class,
                                 measure = auc)
 
 
-# DROPPED
+#= # DROPPED
 mach_KNN_class_d = machine(tuned_model_KNN_class,
                             training_dropped_x,
                             training_dropped_y) |> fit!
@@ -25,7 +25,7 @@ print(err_rate_KNN_class_d)
 # Predictions
 proba_KNN_class_d = predict(mach_KNN_class_d, test_data)
 prediction_KNN_class_d_df = DataFrame(id = 1:nrow(test_data), precipitation_nextday = broadcast(pdf, proba_KNN_class_d, true))
-write_csv("KNN_classifier_dropped.csv", prediction_KNN_class_d_df)
+write_csv("KNN_classifier_dropped.csv", prediction_KNN_class_d_df) =#
 
 
 
@@ -35,7 +35,8 @@ mach_KNN_class_f = machine(tuned_model_KNN_class,
                             training_filled_y) |> fit!
 
 # Tuned values : K
-print(report(mach_KNN_class_f).best_model.K)
+rep_KNN_class_f = report(mach_KNN_class_f)
+print(rep_KNN_class_f.best_model.K)
 
 # Error rate
 pred_KNN_class_f = predict_mode(mach_KNN_class_f, training_filled_x)
@@ -46,3 +47,8 @@ print(err_rate_KNN_class_f)
 proba_KNN_class_f = predict(mach_KNN_class_f, test_data)
 prediction_KNN_class_f_df = DataFrame(id = 1:nrow(test_data), precipitation_nextday = broadcast(pdf, proba_KNN_class_f, true))
 write_csv("KNN_classifier_filled.csv", prediction_KNN_class_f_df)
+
+# Plot
+scatter(reshape(rep_KNN_class_f.plotting.parameter_values, :),
+	    rep_KNN_class_f.plotting.measurements, xlabel = "K", ylabel = "AUC", label = false)
+savefig(joinpath(plots_folder, "KNN_class_tuning_auc.png"))
