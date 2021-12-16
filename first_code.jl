@@ -1,7 +1,6 @@
 using Pkg
 Pkg.activate(pwd())
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux
-
+using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux, MLJMultivariateStatsInterface
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
 
@@ -36,6 +35,9 @@ mkpath(output_folder)
 
 machines_folder = "machines"
 mkpath(machines_folder)
+
+plots_folder = "plots"
+mkpath(plots_folder)
 
 stat_folder = "statistics"
 mkpath(stat_folder)
