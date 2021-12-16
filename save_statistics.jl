@@ -43,8 +43,8 @@ function save_statistics_neuronal_old(machine_subname, machine, regularized = fa
     write_stat("Neuralnetwork_" * machine_subname * ".csv", stats)
 end
 
-# test_mach = machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_pc2.jlso"))
-# save_statistics_neuronal_old("pc2", test_mach)
+test_mach = machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_pc2.jlso"))
+save_statistics_neuronal_old("pc2", test_mach)
 
 function save_statistics_randomForest(machine_subname, tuned_model, machine)
     
