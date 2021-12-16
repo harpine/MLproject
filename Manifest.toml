@@ -1,5 +1,6 @@
 # This file is machine-generated - editing it directly is not advised
 
+julia_version = "1.7.0"
 manifest_format = "2.0"
 
 [[deps.ARFFFiles]]
@@ -398,6 +399,12 @@ git-tree-sha1 = "0c603255764a1fa0b61752d2bec14cfbd18f7fe8"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
 version = "3.3.5+1"
 
+[[deps.GLMNet]]
+deps = ["DataFrames", "Distributed", "Distributions", "Printf", "Random", "SparseArrays", "StatsBase", "glmnet_jll"]
+git-tree-sha1 = "49ef90cd140f8a99a81338f1e08e8ebc18837a63"
+uuid = "8d5ece8b-de18-5317-b113-243142960cc6"
+version = "0.7.0"
+
 [[deps.GPUArrays]]
 deps = ["Adapt", "LinearAlgebra", "Printf", "Random", "Serialization", "Statistics"]
 git-tree-sha1 = "7772508f17f1d482fe0df72cabc5b55bec06bbe0"
@@ -768,9 +775,11 @@ version = "0.1.2"
 
 [[deps.MLJFlux]]
 deps = ["CategoricalArrays", "ColorTypes", "ComputationalResources", "Flux", "MLJModelInterface", "ProgressMeter", "Random", "Statistics", "Tables"]
-git-tree-sha1 = "ecfc181ded92f12396886291946837328045d235"
+git-tree-sha1 = "43390f886f8c1e09231ba066e3c6719989a9bc87"
+repo-rev = "2a8d193"
+repo-url = "https://github.com/FluxML/MLJFlux.jl.git"
 uuid = "094fc8d1-fd35-5302-93ea-dabda2abf845"
-version = "0.2.6"
+version = "0.2.5"
 
 [[deps.MLJIteration]]
 deps = ["IterationControl", "MLJBase", "Random"]
@@ -1532,6 +1541,12 @@ deps = ["MacroTools"]
 git-tree-sha1 = "8c1a8e4dfacb1fd631745552c8db35d0deb09ea0"
 uuid = "700de1a5-db45-46bc-99cf-38207098b444"
 version = "0.2.2"
+
+[[deps.glmnet_jll]]
+deps = ["Libdl", "Pkg"]
+git-tree-sha1 = "a88d1783391cea1503e092e8a346751ec5e3b5d1"
+uuid = "78c6b45d-5eaf-5d68-bcfb-a5a2cb06c27f"
+version = "5.0.0+0"
 
 [[deps.libass_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]

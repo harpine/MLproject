@@ -39,8 +39,15 @@ mkpath(machines_folder)
 plots_folder = "plots"
 mkpath(plots_folder)
 
+stat_folder = "statistics"
+mkpath(stat_folder)
+
 function write_csv(output_file_name, dataframe)
     CSV.write(joinpath(output_folder, output_file_name), dataframe)
+end
+
+function write_stat(output_file_name, dataframe)
+    CSV.write(joinpath(stat_folder, output_file_name), dataframe)
 end
 
 Random.seed!(3)
