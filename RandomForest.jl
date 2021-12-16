@@ -4,17 +4,24 @@ include("sorting_data_regularization.jl")
 data_training_x = regularized_training_filled_x
 data_training_y = training_filled_y
 data_test = regularized_test_x
-machine_subname = "server3"
+machine_subname = "pc2"
 
 model_RandomForest = RandomForestClassifier()
+# tuned_model_RandomForest = TunedModel(model = model_RandomForest,
+#                                 tuning =  Grid(),
+#                                 resampling = CV(nfolds = 10),
+#                                 range = [range(model_RandomForest, :n_trees, lower = 1500, upper = 1800),
+#                                 range(model_RandomForest, :min_samples_split, values = [3,6,10]),
+#                                 range(model_RandomForest, :max_depth , lower = 50, upper = 80)],
+#                                 measure = auc)
+
 tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 tuning =  Grid(),
                                 resampling = CV(nfolds = 10),
-                                range = [range(model_RandomForest, :n_trees, lower = 1500, upper = 1800),
-                                range(model_RandomForest, :min_samples_split, values = [3,6,10]),
-                                range(model_RandomForest, :max_depth , lower = 50, upper = 80)],
+                                range = [range(model_RandomForest, :n_trees, values = [1550,1600,1700,1750,1800]),
+                                range(model_RandomForest, :min_samples_split, values = [5,7,10]),
+                                range(model_RandomForest, :max_depth , values = [60,70,80])],
                                 measure = auc)
-
 
 #= #DROPPED
 mach_RandomForest_d = fit!(machine(tuned_model_RandomForest,
