@@ -1,5 +1,4 @@
 include("./first_code.jl")
-include("./save_statistics.jl")
 #include("loss_saver.jl")
 
 machines_folder = "machines"
@@ -68,7 +67,6 @@ tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= 
 #s5-test
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, controls = controls, range = range(model_Neuralnetwork, :lambda, values = [0.002,0.02,0.2])) #, acceleration=CUDALibs()) #, tune: optimiser, 
-
 
 mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, training_filled_x_std, training_filled_y), verbosity = 4)
 
