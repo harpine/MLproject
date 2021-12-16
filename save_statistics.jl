@@ -1,6 +1,6 @@
 include("./first_code.jl")
 
-function save_statistics_neuronal(machine_subname, tuned_model, machine)
+function save_statistics_neuronal(machine_subname, tuned_model, machine, short_builder = false, regularized = false)
     
     tuning_param = [tuned_model.range]
 
@@ -9,10 +9,16 @@ function save_statistics_neuronal(machine_subname, tuned_model, machine)
     batch = model_rep.batch_size
     lamb = model_rep.lambda
     alph = model_rep.alpha
-    n_hidd = model_rep.builder.n_hidden
-
+    n_hidd = "not appliable"
+    if short_builder
+        n_hidd = model_rep.builder.n_hidden
+    end
+    data = training_filled_x_std
+    if regularized
+        data = regularized_training_filled_x_std
+    end
     measure = report(machine).best_history_entry.measurement
-    pred_Neuralnetwork = predict_mode(machine, regularized_training_filled_x_std)
+    pred_Neuralnetwork = predict_mode(machine,data)
     err_rate_Neuralnewtwork = mean(pred_Neuralnetwork .!= training_filled_y)
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, epochs = ep, batch_size = batch, lambda = lamb, alpha = alph, n_hidden = n_hidd, validation_measure_auc = measure, error_rate = err_rate_Neuralnewtwork)

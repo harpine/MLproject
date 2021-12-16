@@ -1,4 +1,7 @@
-include("./first_code.jl")
+include("./sorting_data_regularization.jl")
+include("./save_statistics.jl")
+
+machine_subname = "filled_1"
 
 model_KNN_class = KNNClassifier()
 tuned_model_KNN_class = TunedModel(model = model_KNN_class,
@@ -41,7 +44,7 @@ print(rep_KNN_class_f.best_model.K)
 # Error rate
 pred_KNN_class_f = predict_mode(mach_KNN_class_f, training_filled_x)
 err_rate_KNN_class_f = mean(pred_KNN_class_f .!= training_filled_y)
-print(err_rate_KNN_class_f)
+print(err_rate_KNN_class_f) 
 
 # Predictions
 proba_KNN_class_f = predict(mach_KNN_class_f, test_data)
@@ -49,6 +52,9 @@ prediction_KNN_class_f_df = DataFrame(id = 1:nrow(test_data), precipitation_next
 write_csv("KNN_classifier_filled.csv", prediction_KNN_class_f_df)
 
 # Plot
-scatter(reshape(rep_KNN_class_f.plotting.parameter_values, :),
-	    rep_KNN_class_f.plotting.measurements, xlabel = "K", ylabel = "AUC", label = false)
+plot(mach_KNN_class_f)
 savefig(joinpath(plots_folder, "KNN_class_tuning_auc.png"))
+
+# Saving statistics
+save_statistics_KNN_class(machine_subname, tuned_model_KNN_class, mach_KNN_class_f)
+
