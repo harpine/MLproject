@@ -16,7 +16,7 @@ training_dropped_x_mlp = coerce!(training_dropped_x, Count => MLJ.Continuous)
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
 training_filled_y = training_filled.precipitation_nextday
-standardizer_mach_filled = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4], ignore = true), training_filled_x)) #, verbosity = 2) #features ignore to retrieve too small variances
+standardizer_mach_filled = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4], ignore = true), training_filled_x), verbosity = 2) #, verbosity = 2) #features ignore to retrieve too small variances
 training_filled_x_std = MLJ.transform(standardizer_mach_filled, training_filled_x)
 
 
