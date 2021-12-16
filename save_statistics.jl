@@ -63,6 +63,21 @@ function save_statistics_randomForest(machine_subname, tuned_model, machine)
     write_stat(machine_subname * ".csv", stats)
 end
 
+function save_statistics_randomForest_old(machine_subname, machine)
+
+    model_rep = report(machine).best_history_entry.model
+    tree = model_rep.n_trees
+    depth = model_rep.max_depth
+    min = model_rep.min_samples_split
+
+    measure = report(machine).best_history_entry.measurement
+    pred_randomForest = predict_mode(machine, training_filled_x)
+    err_rate_randomForest = mean(pred_randomForest .!= training_filled_y)
+
+    stats = DataFrame(machine = machine_subname, tuning_parameters = " ", model_report = model_rep, n_trees = tree, max_depth = depth, min_samples_split = min, validation_measure_auc = measure, error_rate = err_rate_randomForest)
+    write_stat(machine_subname * ".csv", stats)
+end
+
 function save_statistics_KNN_class(machine_subname, tuned_model, machine, standardized = false)
     
     tuning_param = [tuned_model.range]
@@ -82,3 +97,6 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, standa
     stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, K = K_value, validation_measure_auc = measure, error_rate = err_rate_KNN_class)
     write_stat(machine_subname * ".csv", stats)
 end
+
+test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
+save_statistics_randomForest_old("RandomForest_server2", test_mach)
