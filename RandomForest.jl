@@ -12,7 +12,7 @@ tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 resampling = CV(nfolds = 10),
                                 range = [range(model_RandomForest, :n_trees, lower = 1500, upper = 1800),
                                 range(model_RandomForest, :min_samples_split, values = [3,6,10]),
-                                range(model_RandomForest, :max_depth , lower = 50, upper = 80],
+                                range(model_RandomForest, :max_depth , lower = 50, upper = 80)],
                                 measure = auc)
 
 

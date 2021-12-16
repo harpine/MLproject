@@ -98,5 +98,5 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, standa
     write_stat("KNN_class_ " * machine_subname * ".csv", stats)
 end
 
-test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
-save_statistics_randomForest_old("RandomForest_server2", test_mach)
+# test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
+# save_statistics_randomForest_old("RandomForest_server2", test_mach)
