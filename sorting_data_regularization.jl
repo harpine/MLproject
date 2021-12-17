@@ -1,4 +1,4 @@
-include("./first_code.jl")
+include("./utilities.jl")
 
 # plotting lasso path:
 
@@ -28,6 +28,9 @@ regularized_training_filled_x_std = select(training_filled_x_std, Not(small))
 regularized_test_x_std = select(test_data_std, Not(small))
 
 
+write_preprocess_data(regularized_training_filled_x_std_name, regularized_training_filled_x_std)
+write_preprocess_data(regularized_test_std_name, regularized_test_x_std)
+
 #Not standardized 
 training_fits = glmnet(Array(training_filled_x), training_filled_y)
 
@@ -49,3 +52,6 @@ p
 
 regularized_training_filled_x = select(training_filled_x, Not(small))
 regularized_test_x = select(test_data, Not(small))
+
+write_preprocess_data(regularized_training_filled_x_name, regularized_training_filled_x)
+write_preprocess_data(regularized_test_name, regularized_test_x)

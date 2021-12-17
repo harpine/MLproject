@@ -67,6 +67,3 @@ save_statistics_randomForest(machine_subname, tuned_model_RandomForest, mach_Ran
 
 # test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
 # plot(test_mach)
-
-plot(mach_RandomForest_f)
-savefig(joinpath(plots_folder, "plot_RandomForest_filled_" * machine_subname * ".png"))

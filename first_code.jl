@@ -1,5 +1,5 @@
 using Pkg
-Pkg.activate(pwd())
+Pkg.activate(@__DIR__)
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux, MLJMultivariateStatsInterface
 
 training_data = CSV.read(joinpath(@__DIR__, "datasets", "trainingdata.csv"), DataFrame)
@@ -16,7 +16,7 @@ training_dropped_x_mlp = coerce!(training_dropped_x, Count => MLJ.Continuous)
 training_filled = MLJ.transform(fit!(machine(FillImputer(), training_data)), training_data)
 training_filled_x = select(training_filled, Not(:precipitation_nextday))
 training_filled_y = training_filled.precipitation_nextday
-standardizer_mach_filled = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4], ignore = true), training_filled_x), verbosity = 2) #, verbosity = 2) #features ignore to retrieve too small variances
+standardizer_mach_filled = fit!(machine(Standardizer(features = Symbol[:ALT_sunshine_4], ignore = true), training_filled_x)) #, verbosity = 2) #features ignore to retrieve too small variances
 training_filled_x_std = MLJ.transform(standardizer_mach_filled, training_filled_x)
 
 normalizer_mach_filled = fit!(machine())
@@ -32,16 +32,20 @@ coerce!(test_data, :precipitation_nextday => Multiclass)
 test_data = MLJ.transform(fit!(machine(FillImputer(), test_data)), test_data) # We have to fill the missing datas, because we want a prediction for all existing datas.
 test_data_std = MLJ.transform(standardizer_mach_filled, test_data)
 
-output_folder = "outputs"
+output_folder_name = "outputs"
+output_folder = joinpath(@__DIR__, output_folder_name)
 mkpath(output_folder)
 
-machines_folder = "machines"
+machines_folder_name = "machines"
+machines_folder = joinpath(@__DIR__, machines_folder_name)
 mkpath(machines_folder)
 
-plots_folder = "plots"
+plots_folder_name = "plots"
+plots_folder = joinpath(@__DIR__, plots_folder_name)
 mkpath(plots_folder)
 
-stat_folder = "statistics"
+stat_folder_name = "statistics"
+stat_folder = joinpath(@__DIR__, stat_folder_name)
 mkpath(stat_folder)
 
 function write_csv(output_file_name, dataframe)
