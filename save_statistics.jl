@@ -78,7 +78,7 @@ function save_statistics_randomForest_old(machine_subname, machine)
     write_stat("RandomForest_" * machine_subname * ".csv", stats)
 end
 
-function save_statistics_KNN_class(machine_subname, tuned_model, machine, standardized = false)
+function save_statistics_KNN_class(machine_subname, tuned_model, machine, standardized = false, regularized = false)
     
     tuning_param = [tuned_model.range]
 
@@ -87,10 +87,14 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, standa
 
     measure = report(machine).best_history_entry.measurement
 
-    if standardized
+    if standardized & regularized
+        pred_KNN_class = predict_mode(machine, regularized_training_filled_x_std)
+    elseif regularized & !standardized
+        pred_KNN_class = predict_mode(machine, regularized_training_filled_x)
+    elseif standardized & !regularized
         pred_KNN_class = predict_mode(machine, training_filled_x_std)
-    else 
-        pred_KNN_class = predict_mode(machine, training_filled_x_std)
+    else
+        pred_KNN_class = predict_mode(machine, training_filled_x)
     end
     err_rate_KNN_class = mean(pred_KNN_class .!= training_filled_y)
 
@@ -98,5 +102,6 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, standa
     write_stat("KNN_class_ " * machine_subname * ".csv", stats)
 end
 
-# test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
+test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_CV_20_1.jlso"))
+plot(test_mach)
 # save_statistics_randomForest_old("RandomForest_server2", test_mach)

@@ -86,7 +86,7 @@ curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, 
 
 using Plots
 plot(curve.parameter_values,
-       curve.measurements,
+       curve.measurements, 
        xlab=curve.parameter_name,
        xscale=curve.parameter_scale,
        ylab = "AUC")
