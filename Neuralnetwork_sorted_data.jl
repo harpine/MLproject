@@ -6,7 +6,7 @@ include("./save_statistics.jl")
 machines_folder = "machines"
 mkpath(machines_folder)
 
-machine_subname = "sorted_short6"
+machine_subname = "sorted_short7"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
@@ -23,10 +23,10 @@ model_Neuralnetwork = NeuralNetworkClassifier(
 	builder = MLJFlux.Short(),
 	optimiser = ADAMW(),
 	lambda = 0.0,
-	alpha = 0.0)
+	alpha = 0.0, finaliser = NNlib.softmax)
 
 
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [19,20,21,22,23,24]),range(model_Neuralnetwork, :(builder.n_hidden), values = [21,22,23,24]), range(model_Neuralnetwork, :batch_size, values = [70,75,80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [22,23,24,25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [22,23,24,25,26]), range(model_Neuralnetwork, :batch_size, values = [70,75,80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
 """

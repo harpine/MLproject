@@ -1,8 +1,6 @@
 include("./first_code.jl")
 #include("loss_saver.jl")
 
-machines_folder = "machines"
-mkpath(machines_folder)
 #import MLJIteration # for `skip`
 
 # builder = MLJFlux.Short(n_hidden = 128, σ = relu)
@@ -115,22 +113,22 @@ save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neural
 # TEST PLOTTING LEARNING CURVES 2
 
 
-r = range(mach_Neuralnetwork_tuned.model.model, :epochs, lower = 1, upper = 60)
+# r = range(mach_Neuralnetwork_tuned.model.model, :epochs, lower = 1, upper = 60)
 
-curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, training_filled_y,
-                       range=r,
-                       resampling= Holdout(fraction_train=0.7), #CV(nfolds = 5),
-                       measure=log_loss)
+# curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, training_filled_y,
+#                        range=r,
+#                        resampling= Holdout(fraction_train=0.7), #CV(nfolds = 5),
+#                        measure=log_loss)
 
 
-using Plots
-plot(curve.parameter_values,
-       curve.measurements,
-       xlab=curve.parameter_name,
-       xscale=curve.parameter_scale,
-       ylab = "AUC")
+# using Plots
+# plot(curve.parameter_values,
+#        curve.measurements,
+#        xlab=curve.parameter_name,
+#        xscale=curve.parameter_scale,
+#        ylab = "AUC")
 
-savefig(joinpath(losses_folder, "loss_test" * machine_subname * ".png"))
+# savefig(joinpath(losses_folder, "loss_test" * machine_subname * ".png"))
 
 # mach_Neuralnetwork_tuned.model
 
