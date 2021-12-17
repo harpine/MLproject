@@ -1,6 +1,6 @@
 include("./datasets.jl")
 
-machine_subname = "filled_regularized_std_1"
+machine_subname = "filled_regularized_norm_1"
 
 model_KNN_class = KNNClassifier()
 tuned_model_KNN_class = TunedModel(model = model_KNN_class,
@@ -17,12 +17,12 @@ regularized_training_filled_x_std,
 
 # Tuned values : K
 rep_KNN_class = report(mach_KNN_class)
-print(rep_KNN_class.best_model.K)
+print("Fitted parameters: \n", "K = ", rep_KNN_class.best_model.K, "\n")
 
 # Error rate
 pred_KNN_class = predict_mode(mach_KNN_class, regularized_training_filled_x_std)
 err_rate_KNN_class = mean(pred_KNN_class .!= training_filled_y)
-print(err_rate_KNN_class) 
+print("Error rate in training set: ", err_rate_KNN_class, "\n") 
 
 # Predictions
 proba_KNN_class = predict(mach_KNN_class, regularized_test_x_std)

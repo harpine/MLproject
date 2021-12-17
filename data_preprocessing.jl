@@ -24,3 +24,25 @@ write_preprocess_data(test_std_name, test_data_std)
 
 sort_data_std(training_filled_x_std, training_filled_y)
 sort_data_non_std(training_filled_x, training_filled_y)
+
+training_filled_x_norm = training_filled_x
+for i in 1:(size(training_filled_x_norm,2))
+    if typeof(training_filled_x_norm[:, i][1]) != Float64
+        training_filled_x_norm[!, i] = Float64.(training_filled_x_norm[:, i])
+    end
+    min = minimum(training_filled_x_norm[:, i])
+    max = maximum(training_filled_x_norm[:, i])
+    training_filled_x_norm[:, i] = (training_filled_x_norm[:, i] .- min) ./ (max - min)
+end
+training_filled_x_norm
+
+test_data_norm = test_data
+for i in 1:(size(test_data_norm,2))
+    if typeof(test_data_norm[:, i][1]) != Float64
+        test_data_norm[!, i] = Float64.(test_data_norm[:, i])
+    end
+    min = minimum(test_data_norm[:, i])
+    max = maximum(test_data_norm[:, i])
+    test_data_norm[:, i] = (test_data_norm[:, i] .- min) ./ (max - min)
+end
+test_data_norm
