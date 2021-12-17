@@ -1,27 +1,20 @@
 #include("./first_code.jl")
-include("sorting_data_regularization.jl")
+include("./sorting_data_regularization.jl")
+include("./save_statistics.jl")
 
 data_training_x = regularized_training_filled_x
 data_training_y = training_filled_y
 data_test = regularized_test_x
-machine_subname = "server3"
+machine_subname = "CV_20_3"
 
-model_RandomForest = RandomForestClassifier()
-# tuned_model_RandomForest = TunedModel(model = model_RandomForest,
-#                                 tuning =  Grid(),
-#                                 resampling = CV(nfolds = 10),
-#                                 range = [range(model_RandomForest, :n_trees, lower = 1500, upper = 1800),
-#                                 range(model_RandomForest, :min_samples_split, values = [3,6,10]),
-#                                 range(model_RandomForest, :max_depth , lower = 50, upper = 80)],
-#                                 measure = auc)
-
+model_RandomForest = RandomForestClassifier(min_samples_split = 10)
 tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 tuning =  Grid(),
-                                resampling = CV(nfolds = 10),
-                                range = [range(model_RandomForest, :n_trees, values = [1600,1700,1800]),
-                                range(model_RandomForest, :min_samples_split, values = [5,7,10]),
-                                range(model_RandomForest, :max_depth , values = [60,70,80])],
+                                resampling = CV(nfolds = 20),
+                                range = [range(model_RandomForest, :n_trees, values = [1850, 1900, 1950]),
+                                range(model_RandomForest, :max_depth , values = [95, 100])],
                                 measure = auc)
+
 
 #= #DROPPED
 mach_RandomForest_d = fit!(machine(tuned_model_RandomForest,
@@ -70,7 +63,7 @@ print("min samples split: ", report(mach_RandomForest_f).best_model.min_samples_
 
 MLJ.save(joinpath(machines_folder,"mach_RandomForest_filled_" * machine_subname * ".jlso"), mach_RandomForest_f)
 
-save_statistics_randomForest_old(machine_subname, test_mach)
+save_statistics_randomForest(machine_subname, tuned_model_RandomForest, mach_RandomForest_f)
 
 # test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
 # plot(test_mach)
