@@ -18,3 +18,6 @@ Pkg.add("MLJFlux")
 Pkg.add("Flux")
 Pkg.add("MLJMultivariateStatsInterface")
 Pkg.add("GLMNet")
+
+#Pkg.activate() -> load manifest file
+#Pkg.instantiate()

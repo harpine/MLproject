@@ -1,4 +1,4 @@
-include("./first_code.jl")
+#include("./utilities.jl")
 
 function save_statistics_neuronal(machine_subname, tuned_model, machine, short_builder = false, regularized = false)
     
@@ -49,9 +49,9 @@ function save_statistics_neuronal_old(machine_subname, machine, regularized = fa
     write_stat("Neuralnetwork_" * machine_subname * ".csv", stats)
 end
 
-test_mach = machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_pc2.jlso"))
-plot(test_mach)
-save_statistics_neuronal_old("pc2", test_mach)
+# test_mach = machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_pc2.jlso"))
+# plot(test_mach)
+# save_statistics_neuronal_old("pc2", test_mach)
 
 function save_statistics_randomForest(machine_subname, tuned_model, machine)
     
@@ -109,6 +109,23 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, standa
     write_stat("KNN_class_ " * machine_subname * ".csv", stats)
 end
 
-test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_CV_20_1.jlso"))
-plot(test_mach)
+
+function save_logistic_reg(machine_subname, tuned_model, machine)
+    
+    tuning_param = [tuned_model.range]
+
+    model_rep = report(machine).best_history_entry.model
+    lamb = model_rep.lambda
+
+    measure = report(machine).best_history_entry.measurement
+
+    pred_logistic_class = predict_mode(machine, training_filled_x_std)
+
+    err_rate_logistic_class = mean(pred_logistic_class .!= training_filled_y)
+    print("vi")
+    stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, lambda = lamb, validation_measure_auc = measure, error_rate = err_rate_logistic_class)
+    write_stat("logistic_reg_ " * machine_subname * ".csv", stats)
+end
+# test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_CV_20_1.jlso"))
+# plot(test_mach)
 # save_statistics_randomForest_old("RandomForest_server2", test_mach)

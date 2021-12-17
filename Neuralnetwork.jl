@@ -1,29 +1,9 @@
-include("./first_code.jl")
+include("./datasets.jl")
 #include("loss_saver.jl")
-
-#import MLJIteration # for `skip`
-
-# builder = MLJFlux.Short(n_hidden = 128, σ = relu)
-#optimiser = ADAM()
 
 machine_subname = "pc3"
 
 #https://github.com/FluxML/MLJFlux.jl
-
-# model_Neuralnetwork = @pipeline( Standardizer(features = Symbol[:ALT_sunshine_4, :ZER_sunshine_1], ignore = true), NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
-#                                                                                                         Dense(100, n_out, sigmoid))),
-#                                                                                                         optimiser = ADAMW(),
-#                                                                                                     batch_size = 32,epochs = 20), 
-#                                                                                                    prediction_type = :probabilistic)
-
-# A noter dans le rapport: The sigmoid function is used for the two-class logistic regression, whereas the softmax function is used for the multiclass logistic regression (a.k.a. MaxEnt, multinomial logistic regression, softmax Regression, Maximum Entropy Classifier).
-
-
-
-
-
-#Defining some functions to trace outputs
-
 
 
 model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 10, relu),
@@ -104,32 +84,3 @@ write_csv("neural_newtork_tuned_" * machine_subname * ".csv", prediction_Neuraln
 save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned)
 
 #loss_saver(mach_Neuralnetwork_tuned)
-
-
-#TEST PLOTTING LEARNING CURVES 1
-
-
-
-# TEST PLOTTING LEARNING CURVES 2
-
-
-# r = range(mach_Neuralnetwork_tuned.model.model, :epochs, lower = 1, upper = 60)
-
-# curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, training_filled_y,
-#                        range=r,
-#                        resampling= Holdout(fraction_train=0.7), #CV(nfolds = 5),
-#                        measure=log_loss)
-
-
-# using Plots
-# plot(curve.parameter_values,
-#        curve.measurements,
-#        xlab=curve.parameter_name,
-#        xscale=curve.parameter_scale,
-#        ylab = "AUC")
-
-# savefig(joinpath(losses_folder, "loss_test" * machine_subname * ".png"))
-
-# mach_Neuralnetwork_tuned.model
-
-# dans le rapport: pourquoi avoir choisi quelle méthode, expliquer où on a passé du temps pourquoi et comment on a résolu 
