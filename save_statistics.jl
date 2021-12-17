@@ -97,7 +97,7 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, standa
     if standardized
         pred_KNN_class = predict_mode(machine, training_filled_x_std)
     else 
-        pred_KNN_class = predict_mode(machine, training_filled_x_std)
+        pred_KNN_class = predict_mode(machine, training_filled_x)
     end
     err_rate_KNN_class = mean(pred_KNN_class .!= training_filled_y)
 
@@ -107,3 +107,20 @@ end
 
 # test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
 # save_statistics_randomForest_old("RandomForest_server2", test_mach)
+
+function save_logistic_reg(machine_subname, tuned_model, machine)
+    
+    tuning_param = [tuned_model.range]
+
+    model_rep = report(machine).best_history_entry.model
+    lamb = model_rep.lambda
+
+    measure = report(machine).best_history_entry.measurement
+
+    pred_logistic_class = predict_mode(machine, training_filled_x_std)
+
+    err_rate_logistic_class = mean(pred_logistic_class .!= training_filled_y)
+
+    stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, lambda = lamb, validation_measure_auc = measure, error_rate = err_rate_logistic_class)
+    write_stat("logistic_reg_ " * machine_subname * ".csv", stats)
+end

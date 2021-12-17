@@ -37,6 +37,7 @@ regularized_test_std_name = "regularized_test_data_std.csv"
 
 function write_preprocess_data(output_file_name, dataframe)
     CSV.write(joinpath(dataset_folder, output_file_name), dataframe)
+end
 
 function write_csv(output_file_name, dataframe)
     CSV.write(joinpath(output_folder, output_file_name), dataframe)

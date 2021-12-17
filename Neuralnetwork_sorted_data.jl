@@ -6,15 +6,18 @@ include("./save_statistics.jl")
 machines_folder = "machines"
 mkpath(machines_folder)
 
-machine_subname = "sorted_short7"
+machine_subname = "sorted_short8"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 Dense(100, n_out, sigmoid))),
 #                                                                                 optimiser = ADAMW()) # , finaliser = NNlib.sigmoid: I can't implement it!!
 
+# christmas tree 
+# 
+
 # model_Neuralnetwork = NeuralNetworkClassifier(
-# 	builder = MLJFlux.MLP(),
+# 	builder = MLJFlux.MLP(n_hidden=(100,100)),
 # 	optimiser = ADAMW(),
 # 	lambda = 0.0,
 # 	alpha = 0.0, batch_size = 32)
@@ -26,14 +29,14 @@ model_Neuralnetwork = NeuralNetworkClassifier(
 	alpha = 0.0, finaliser = NNlib.softmax)
 
 
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [22,23,24,25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [22,23,24,25,26]), range(model_Neuralnetwork, :batch_size, values = [70,75,80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [23,24]),range(model_Neuralnetwork, :(builder.n_hidden), values = [24,25,26,27]), range(model_Neuralnetwork, :batch_size, values = [80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
 """
 tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]), range(model_Neuralnetwork, :lambda, lower = 2e-6 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 """
 #server4
-#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]),range(model_Neuralnetwork, :(builder.hidden), values = [(100,), (10,10,10), (10,10)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [10,15]),range(model_Neuralnetwork, :(builder.hidden), values = [(100,), (10,10,10), (10,10)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #builder mlp
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [15, 17, 20, 22, 25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [10, 12, 15, 20, 30])])#, acceleration=CUDALibs()) #, tune: optimiser, 
@@ -67,7 +70,7 @@ write_csv("neural_newtork_tuned_" * machine_subname * ".csv", prediction_Neuraln
 
 
 report(mach_Neuralnetwork_tuned).best_history_entry.measurement
-
+report(mach_Neuralnetwork_tuned).best_history_entry
 
 save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, true, true)
 plot(mach_Neuralnetwork_tuned)
