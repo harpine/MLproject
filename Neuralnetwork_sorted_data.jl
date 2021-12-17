@@ -6,31 +6,34 @@ include("./save_statistics.jl")
 machines_folder = "machines"
 mkpath(machines_folder)
 
-machine_subname = "sorted2"
+machine_subname = "sorted_short6"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 Dense(100, n_out, sigmoid))),
 #                                                                                 optimiser = ADAMW()) # , finaliser = NNlib.sigmoid: I can't implement it!!
 
-model_Neuralnetwork = NeuralNetworkClassifier(
-	builder = MLJFlux.MLP(),
-	optimiser = ADAMW(),
-	lambda = 0.0,
-	alpha = 0.0, batch_size = 32)
-
 # model_Neuralnetwork = NeuralNetworkClassifier(
-# 	builder = MLJFlux.Short(n_hidden = 15),
+# 	builder = MLJFlux.MLP(),
 # 	optimiser = ADAMW(),
 # 	lambda = 0.0,
-# 	alpha = 0.0, batch_size = 32, epochs = 17)
+# 	alpha = 0.0, batch_size = 32)
+
+model_Neuralnetwork = NeuralNetworkClassifier(
+	builder = MLJFlux.Short(),
+	optimiser = ADAMW(),
+	lambda = 0.0,
+	alpha = 0.0)
+
+
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [19,20,21,22,23,24]),range(model_Neuralnetwork, :(builder.n_hidden), values = [21,22,23,24]), range(model_Neuralnetwork, :batch_size, values = [70,75,80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
 """
 tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]), range(model_Neuralnetwork, :lambda, lower = 2e-6 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 """
 #server4
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]),range(model_Neuralnetwork, :(builder.hidden), values = [(100,), (10,10,10), (10,10)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]),range(model_Neuralnetwork, :(builder.hidden), values = [(100,), (10,10,10), (10,10)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #builder mlp
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [15, 17, 20, 22, 25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [10, 12, 15, 20, 30])])#, acceleration=CUDALibs()) #, tune: optimiser, 
@@ -65,7 +68,10 @@ write_csv("neural_newtork_tuned_" * machine_subname * ".csv", prediction_Neuraln
 
 report(mach_Neuralnetwork_tuned).best_history_entry.measurement
 
-save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned)
+
+save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, true, true)
+plot(mach_Neuralnetwork_tuned)
+savefig(joinpath(plots_folder, "machine_plot" * machine_subname * "png"))
 #loss_saver(mach_Neuralnetwork_tuned)
 
 
@@ -76,22 +82,22 @@ save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neural
 # TEST PLOTTING LEARNING CURVES 2
 
 
-r = range(mach_Neuralnetwork_tuned.model.model, :epochs, lower = 1, upper = 60)
+# r = range(mach_Neuralnetwork_tuned.model.model, :epochs, lower = 1, upper = 60)
 
-curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, training_filled_y,
-                       range=r,
-                       resampling= Holdout(fraction_train=0.7), #CV(nfolds = 5),
-                       measure=log_loss)
+# curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, training_filled_y,
+#                        range=r,
+#                        resampling= Holdout(fraction_train=0.7), #CV(nfolds = 5),
+#                        measure=log_loss)
 
 
-using Plots
-plot(curve.parameter_values,
-       curve.measurements,
-       xlab=curve.parameter_name,
-       xscale=curve.parameter_scale,
-       ylab = "AUC")
+# using Plots
+# plot(curve.parameter_values,
+#        curve.measurements,
+#        xlab=curve.parameter_name,
+#        xscale=curve.parameter_scale,
+#        ylab = "AUC")
 
-savefig(joinpath(losses_folder, "loss_test" * machine_subname * ".png"))
+# savefig(joinpath(losses_folder, "loss_test" * machine_subname * ".png"))
 
 # mach_Neuralnetwork_tuned.model
 

@@ -1,6 +1,6 @@
 
 using Pkg
-Pkg.activate(pwd())
+Pkg.activate(@__DIR__)
 Pkg.add("Plots")
 Pkg.add("StatsPlots")
 Pkg.add("DataFrames")
