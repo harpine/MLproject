@@ -3,12 +3,14 @@ Pkg.activate(@__DIR__)
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux, MLJMultivariateStatsInterface
 include("./utilities.jl")
 
-training_filled_x = CSV.read(joinpath(dataset_folder, training_x_name), DataFrame)
-training_filled_x_std = CSV.read(joinpath(dataset_folder, training_x_std_name), DataFrame)
-training_filled_y = CSV.read(joinpath(dataset_folder, training_y_name), DataFrame)
+training_filled_x = deserialize(joinpath(dataset_folder, training_x_name))
+training_filled_x_std = deserialize(joinpath(dataset_folder, training_x_std_name))
+#training_filled_y = CSV.read(joinpath(dataset_folder, training_y_name), DataFrame).ref
+#training_filled_y = coerce(training_filled_y, Multiclass)
+training_filled_y = deserialize(joinpath(dataset_folder, training_y_name))
 
-regularized_training_filled_x = CSV.read(joinpath(dataset_folder, regularized_training_filled_x_name), DataFrame)
-regularized_training_filled_x_std = CSV.read(joinpath(dataset_folder, regularized_training_filled_x_std_name), DataFrame)
+regularized_training_filled_x = deserialize(joinpath(dataset_folder, regularized_training_filled_x_name))
+regularized_training_filled_x_std = deserialize(joinpath(dataset_folder, regularized_training_filled_x_std_name))
 
-test_data = CSV.read(joinpath(dataset_folder, test_name), DataFrame)
-test_data_std = CSV.read(joinpath(dataset_folder, test_std_name), DataFrame)
+test_data = deserialize(joinpath(dataset_folder, test_name))
+test_data_std = deserialize(joinpath(dataset_folder, test_std_name))

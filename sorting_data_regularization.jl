@@ -19,7 +19,7 @@ function sort_data_std(training_filled_x_std, training_filled_y)
     idx = findall(x->x<=0.77, lambda)[1]
     for i in 1:size(training_fits.betas, 1)
         plot!(lambda, training_fits.betas[i, :], label = col_names[i])
-        if abs(training_fits.betas[i, 73]) < 1e-8
+        if abs(training_fits.betas[i, idx]) < 1e-8
             push!(small, col_names[i])
         end
     end
@@ -48,7 +48,7 @@ function sort_data_non_std(training_filled_x, training_filled_y)
     idx = findall(x->x<=0.77, lambda)[1]
     for i in 1:size(training_fits.betas, 1)
         plot!(lambda, training_fits.betas[i, :], label = col_names[i])
-        if abs(training_fits.betas[i, 73]) < 1e-8
+        if abs(training_fits.betas[i, idx]) < 1e-8
             push!(small, col_names[i])
         end
     end
@@ -64,5 +64,5 @@ function sort_data_non_std(training_filled_x, training_filled_y)
 end
 
 
-# sort_data_std(training_filled_x_std, training_filled_y)
+#sort_data_std(training_filled_x_std, training_filled_y)
 # sort_data_non_std(training_filled_x, training_filled_y)
