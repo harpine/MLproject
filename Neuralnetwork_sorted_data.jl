@@ -56,7 +56,7 @@ model_report = report(mach_Neuralnetwork_tuned).best_history_entry.model
 print(model_report)
 
 # param_df = Dataframe("parameters" = ) save parameters in a file ?
-print("fitted parameters: \n", "epochs = ", model_report.epochs, "\n", "batch_size = ", model_report.batch_size, "\n", "lambda = ", model_report.lambda, "\n", "alpha = ", model_report.alpha, "\n", "n_hidden =", model_report.builder.n_hidden, "\n")
+print("fitted parameters: \n", "epochs = ", model_report.epochs, "\n", "batch_size = ", model_report.batch_size, "\n", "lambda = ", model_report.lambda, "\n", "alpha = ", model_report.alpha, "\n", "n_hidden =", model_report.builder.hidden, "\n")
 
 pred_Neuralnetwork = predict_mode(mach_Neuralnetwork_tuned, regularized_training_filled_x_std)
 
@@ -64,15 +64,15 @@ err_rate_Neuralnewtwork = mean(pred_Neuralnetwork .!= training_filled_y)
 
 print("Neural Network: ", err_rate_Neuralnewtwork, "\n")
 
-proba_Neuralnetwork = predict(mach_Neuralnetwork_tuned, regularized_test_x_std)
-prediction_Neuralnetwork_df = DataFrame(id = 1:nrow(regularized_test_x_std), precipitation_nextday = broadcast(pdf,proba_Neuralnetwork, true))
+proba_Neuralnetwork = predict(mach_Neuralnetwork_tuned, regularized_test_std)
+prediction_Neuralnetwork_df = DataFrame(id = 1:nrow(regularized_test_std), precipitation_nextday = broadcast(pdf,proba_Neuralnetwork, true))
 write_csv("neural_newtork_tuned_" * machine_subname * ".csv", prediction_Neuralnetwork_df)
 
 
 report(mach_Neuralnetwork_tuned).best_history_entry.measurement
 report(mach_Neuralnetwork_tuned).best_history_entry
 
-save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, true, true)
+save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, short_builder = false, mlp_builder = true, regularized = true)
 plot(mach_Neuralnetwork_tuned)
 savefig(joinpath(plots_folder, "machine_plot" * machine_subname * "png"))
 #loss_saver(mach_Neuralnetwork_tuned)
