@@ -4,7 +4,7 @@ include("./save_statistics.jl")
 
 data_training_x = regularized_training_filled_x
 data_training_y = training_filled_y
-data_test = regularized_test_x
+data_test = test_data_std
 machine_subname = "CV_20_3"
 
 model_RandomForest = RandomForestClassifier(min_samples_split = 10)
@@ -12,7 +12,7 @@ tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                 tuning =  Grid(),
                                 resampling = CV(nfolds = 20),
                                 range = [range(model_RandomForest, :n_trees, values = [1850, 1900, 1950]),
-                                range(model_RandomForest, :max_depth , values = [95, 100])],
+                                range(model_RandomForest, :max_depth , values = [95, 100, 105, 110])],
                                 measure = auc)
 
 
@@ -67,3 +67,7 @@ save_statistics_randomForest(machine_subname, tuned_model_RandomForest, mach_Ran
 
 # test_mach = machine(joinpath(machines_folder,"mach_RandomForest_filled_server2.jlso"))
 # plot(test_mach)
+
+# Plot
+plot(mach_RandomForest_f)
+savefig(joinpath(plots_folder, "plot_RandomForest_tuning_auc_" * machine_subname * ".png"))
