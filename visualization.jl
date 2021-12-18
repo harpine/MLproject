@@ -1,5 +1,5 @@
 
-include("./first_code.jl")
+include("./datasets.jl")
 
 function biplot(m; pc = 1:2)
     scores = MLJ.transform(m, m.data[1])
@@ -38,15 +38,15 @@ end
 
 
 # Correlation plot
-@df training_dropped corrplot([:CHU_air_temp_1 :CHU_wind_1 :CHU_wind_direction_1 :DAV_radiation_1 :DAV_delta_pressure_1],
+@df training_filled_x corrplot([:CHU_air_temp_1 :CHU_wind_1 :CHU_wind_direction_1 :DAV_radiation_1 :DAV_delta_pressure_1],
                      grid = false, fillcolor = cgrad(), size = (700, 700)) 
 # Ca marche, maintenant trouver les directions les plus intéressantes avec PCA?
 
-
+# DataFrame of the training data
 schema(training_filled)
 
 
-pca_visualization = fit!(machine(PCA(), training_dropped_x_std))
+pca_visualization = fit!(machine(PCA(), training_filled_x_std))
 gr()
 biplot(pca_visualization, pc=(1,2))
 savefig(joinpath(plots_folder, "PCA_biplot.png"))
