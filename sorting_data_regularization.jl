@@ -4,6 +4,9 @@ include("./utilities.jl")
 # plotting lasso path:
 
 import GLMNet: glmnet
+training_filled_x_std = deserialize(joinpath(dataset_folder, training_x_std_name))
+training_filled_y = deserialize(joinpath(dataset_folder, training_y_name))
+
 
 function sort_data_std(training_filled_x_std, training_filled_y)
     
@@ -16,7 +19,7 @@ function sort_data_std(training_filled_x_std, training_filled_y)
     col_names = names(training_filled_x_std)
     plotly()
     p = plot()
-    idx = findall(x->x<=0.77, lambda)[1]
+    idx = findall(x->x<=-8.0, lambda)[1]
     for i in 1:size(training_fits.betas, 1)
         plot!(lambda, training_fits.betas[i, :], label = col_names[i])
         if abs(training_fits.betas[i, idx]) < 1e-8
@@ -26,10 +29,10 @@ function sort_data_std(training_filled_x_std, training_filled_y)
     plot!(legend = :outertopright, xlabel = "log(λ)", size = (700, 400))
     gr()
     p
+    #savefig(joinpath(plots_folder, "regularization_l1.png"))
 
     regularized_training_filled_x_std = select(training_filled_x_std, Not(small))
     regularized_test_x_std = select(test_data_std, Not(small))
-
 
     write_preprocess_data(regularized_training_filled_x_std_name, regularized_training_filled_x_std)
     write_preprocess_data(regularized_test_std_name, regularized_test_x_std)
@@ -45,7 +48,7 @@ function sort_data_non_std(training_filled_x, training_filled_y)
     col_names = names(training_filled_x)
     plotly()
     p = plot()
-    idx = findall(x->x<=0.77, lambda)[1]
+    idx = findall(x->x<=-8.0, lambda)[1]
     for i in 1:size(training_fits.betas, 1)
         plot!(lambda, training_fits.betas[i, :], label = col_names[i])
         if abs(training_fits.betas[i, idx]) < 1e-8

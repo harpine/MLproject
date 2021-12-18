@@ -1,12 +1,12 @@
 #include("./first_code.jl")
-include("./sorting_data_regularization.jl")
-include("./save_statistics.jl")
+include("utilities.jl")
+include("./datasets.jl")
 #include("loss_saver.jl")
 
 machines_folder = "machines"
 mkpath(machines_folder)
 
-machine_subname = "sorted_short8"
+machine_subname = "sorted_mlp1"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
@@ -16,33 +16,33 @@ machine_subname = "sorted_short8"
 # christmas tree 
 # 
 
-# model_Neuralnetwork = NeuralNetworkClassifier(
-# 	builder = MLJFlux.MLP(n_hidden=(100,100)),
-# 	optimiser = ADAMW(),
-# 	lambda = 0.0,
-# 	alpha = 0.0, batch_size = 32)
-
 model_Neuralnetwork = NeuralNetworkClassifier(
-	builder = MLJFlux.Short(),
+	builder = MLJFlux.MLP(hidden=(100,100,100)),
 	optimiser = ADAMW(),
 	lambda = 0.0,
-	alpha = 0.0, finaliser = NNlib.softmax)
+	alpha = 0.0, batch_size = 32)
+
+# model_Neuralnetwork = NeuralNetworkClassifier(
+# 	builder = MLJFlux.Short(),
+# 	optimiser = ADAMW(),
+# 	lambda = 0.0,
+# 	alpha = 0.0, finaliser = NNlib.softmax)
 
 
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [23,24]),range(model_Neuralnetwork, :(builder.n_hidden), values = [24,25,26,27]), range(model_Neuralnetwork, :batch_size, values = [80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [23,24]),range(model_Neuralnetwork, :(builder.n_hidden), values = [24,25,26,27]), range(model_Neuralnetwork, :batch_size, values = [80,85,90])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
 """
 tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]), range(model_Neuralnetwork, :lambda, lower = 2e-6 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 """
 #server4
-#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [10,15]),range(model_Neuralnetwork, :(builder.hidden), values = [(100,), (10,10,10), (10,10)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [10,20,30,40,50,60]),range(model_Neuralnetwork, :(builder.hidden), values = [(80,50,30), (50,30,15)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #builder mlp
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [15, 17, 20, 22, 25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [10, 12, 15, 20, 30])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [ range(model_Neuralnetwork, :lambda, lower = 2e-3 , upper = 2e3, scale = :log), range(model_Neuralnetwork, :alpha, lower = 0, upper = 1 )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
-
+regularized_training_filled_x_std
 mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, regularized_training_filled_x_std, training_filled_y), verbosity = 4)
 
 MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
@@ -76,32 +76,3 @@ save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neural
 plot(mach_Neuralnetwork_tuned)
 savefig(joinpath(plots_folder, "machine_plot" * machine_subname * "png"))
 #loss_saver(mach_Neuralnetwork_tuned)
-
-
-#TEST PLOTTING LEARNING CURVES 1
-
-
-
-# TEST PLOTTING LEARNING CURVES 2
-
-
-# r = range(mach_Neuralnetwork_tuned.model.model, :epochs, lower = 1, upper = 60)
-
-# curve = learning_curve(mach_Neuralnetwork_tuned.model.model, training_filled_x, training_filled_y,
-#                        range=r,
-#                        resampling= Holdout(fraction_train=0.7), #CV(nfolds = 5),
-#                        measure=log_loss)
-
-
-# using Plots
-# plot(curve.parameter_values,
-#        curve.measurements,
-#        xlab=curve.parameter_name,
-#        xscale=curve.parameter_scale,
-#        ylab = "AUC")
-
-# savefig(joinpath(losses_folder, "loss_test" * machine_subname * ".png"))
-
-# mach_Neuralnetwork_tuned.model
-
-# dans le rapport: pourquoi avoir choisi quelle méthode, expliquer où on a passé du temps pourquoi et comment on a résolu 

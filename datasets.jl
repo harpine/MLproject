@@ -5,8 +5,6 @@ include("./utilities.jl")
 
 training_filled_x = deserialize(joinpath(dataset_folder, training_x_name))
 training_filled_x_std = deserialize(joinpath(dataset_folder, training_x_std_name))
-#training_filled_y = CSV.read(joinpath(dataset_folder, training_y_name), DataFrame).ref
-#training_filled_y = coerce(training_filled_y, Multiclass)
 training_filled_y = deserialize(joinpath(dataset_folder, training_y_name))
 
 regularized_training_filled_x = deserialize(joinpath(dataset_folder, regularized_training_filled_x_name))
