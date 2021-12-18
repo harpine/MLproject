@@ -6,7 +6,7 @@ include("./datasets.jl")
 machines_folder = "machines"
 mkpath(machines_folder)
 
-machine_subname = "sorted_mlp_s1"
+machine_subname = "sorted_mlp_server1"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
@@ -17,7 +17,7 @@ machine_subname = "sorted_mlp_s1"
 # 
 
 model_Neuralnetwork = NeuralNetworkClassifier(
-	builder = MLJFlux.MLP(hidden=(30,20,10)),
+	builder = MLJFlux.MLP(hidden=(100,80)),
 	optimiser = ADAMW(),
 	lambda = 0.0,
 	alpha = 0.0, batch_size = 32, finaliser = NNlib.softmax, epochs = 80)
@@ -36,9 +36,11 @@ model_Neuralnetwork = NeuralNetworkClassifier(
 tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]), range(model_Neuralnetwork, :lambda, lower = 2e-6 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 """
 #server4
-#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :batch_size, values = [32,50]) ,range(model_Neuralnetwork, :(epochs), values = [60,100]),range(model_Neuralnetwork, :(builder.hidden), values = [(80,50,30), (100,80,60), (60,45,30)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :batch_size, values = [50,55,60]) ,range(model_Neuralnetwork, :(epochs), values = [65,70,75])]) #,range(model_Neuralnetwork, :(builder.hidden), values = [(100,80,60), (60,45,30)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #builder mlp
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :batch_size, values = [20,32]) ,range(model_Neuralnetwork, :(epochs), values = [60,90]),range(model_Neuralnetwork, :(builder.hidden), values = [(80,50,30), (30,20,10), (60,45,30)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+#tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :batch_size, values = [20,32]) ,range(model_Neuralnetwork, :(epochs), values = [60,90]),range(model_Neuralnetwork, :(builder.hidden), values = [(80,50,30), (30,20,10), (60,45,30)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :batch_size, values = [50,55,60]) ,range(model_Neuralnetwork, :(epochs), values = [65,70,75])]) #,range(model_Neuralnetwork, :(builder.hidden), values = [(100,80,60), (60,45,30)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [15, 17, 20, 22, 25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [10, 12, 15, 20, 30])])#, acceleration=CUDALibs()) #, tune: optimiser, 
