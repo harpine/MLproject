@@ -66,3 +66,23 @@ end
 
 #sort_data_std(training_filled_x_std, training_filled_y)
 # sort_data_non_std(training_filled_x, training_filled_y)
+
+
+
+function normalize_regularized_data(data)
+    for i in 1:(size(data,2))
+        if typeof(data[:, i][1]) != Float64
+            data[!, i] = Float64.(data[:, i])
+        end
+        mini = minimum(data[:, i])
+        maxi = maximum(data[:, i])
+        data[:, i] = (data[:, i] .- mini) ./ (maxi - mini)
+    end
+
+end
+
+function write_normalized_regularized_data(training_data_x, test_data)
+    write_preprocess_data(regularized_training_filled_x_norm_name, normalize_regularized_data(training_data_x))
+    write_preprocess_data(regularized_test_norm_name, normalize_regularized_data(test_data))
+end
+

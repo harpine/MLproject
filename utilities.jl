@@ -29,13 +29,17 @@ training_y_name = "training_filled_y"
 
 regularized_training_filled_x_name = "regularized_training_x"
 regularized_training_filled_x_std_name = "regularized_training_x_std"
+regularized_training_filled_x_norm_name = "regularized_training_x_norm"
 regularized_training_y_name = "regularized_training_filled_y"
+
+
 
 test_name = "test_filled"
 test_std_name = "test_data_std"
 
 regularized_test_name = "regularized_test_filled"
 regularized_test_std_name = "regularized_test_data_std"
+regularized_test_norm_name = "regularized_test_data_norm"
 
 function write_preprocess_data(output_file_name, dataframe)
     serialize(joinpath(dataset_folder, output_file_name), dataframe)
