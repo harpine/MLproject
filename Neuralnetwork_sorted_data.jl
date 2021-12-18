@@ -20,7 +20,7 @@ model_Neuralnetwork = NeuralNetworkClassifier(
 	builder = MLJFlux.MLP(hidden=(100,100,100)),
 	optimiser = ADAMW(),
 	lambda = 0.0,
-	alpha = 0.0, batch_size = 32)
+	alpha = 0.0, batch_size = 32, finaliser = NNlib.softmax)
 
 # model_Neuralnetwork = NeuralNetworkClassifier(
 # 	builder = MLJFlux.Short(),
@@ -36,7 +36,7 @@ model_Neuralnetwork = NeuralNetworkClassifier(
 tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [5,7,10,15]), range(model_Neuralnetwork, :lambda, lower = 2e-6 , upper = 2e-2, scale = :log), range(model_Neuralnetwork, :alpha, values = [0,0.5,1.0] )])#, acceleration=CUDALibs()) #, tune: optimiser, 
 """
 #server4
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [10,20,30,40,50,60]),range(model_Neuralnetwork, :(builder.hidden), values = [(80,50,30), (50,30,15)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :batch_size, values = [32,64,128]), range(model_Neuralnetwork, :(epochs), values = [10,20,30,40,50,60,70,80]),range(model_Neuralnetwork, :(builder.hidden), values = [(80,50,30), (50,30,10), (60,45,30)])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 #builder mlp
 
 #tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 10), measure = auc, range = [range(model_Neuralnetwork, :(epochs), values = [15, 17, 20, 22, 25]),range(model_Neuralnetwork, :(builder.n_hidden), values = [10, 12, 15, 20, 30])])#, acceleration=CUDALibs()) #, tune: optimiser, 
