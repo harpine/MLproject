@@ -26,5 +26,3 @@ sort_data_std(training_filled_x_std, training_filled_y, test_data_std)
 sort_data_non_std(training_filled_x, training_filled_y, test_data)
 
 write_normalized_regularized_data(deserialize(joinpath(dataset_folder, regularized_training_filled_x_name)), deserialize(joinpath(dataset_folder, regularized_test_name)))
-
-

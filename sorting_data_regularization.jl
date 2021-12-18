@@ -71,6 +71,7 @@ end
 
 function normalize_regularized_data(data)
     for i in 1:(size(data,2))
+        # Conversion of all columns into Float64
         if typeof(data[:, i][1]) != Float64
             data[!, i] = Float64.(data[:, i])
         end
@@ -78,7 +79,7 @@ function normalize_regularized_data(data)
         maxi = maximum(data[:, i])
         data[:, i] = (data[:, i] .- mini) ./ (maxi - mini)
     end
-
+    return data
 end
 
 function write_normalized_regularized_data(training_data_x, test_data)
