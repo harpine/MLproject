@@ -64,7 +64,7 @@ function save_statistics_randomForest(machine_subname, tuned_model, machine)
     min = model_rep.min_samples_split
 
     measure = report(machine).best_history_entry.measurement
-    pred_randomForest = predict_mode(machine, training_filled_x_std)
+    pred_randomForest = predict_mode(machine, data_test)
     err_rate_randomForest = mean(pred_randomForest .!= training_filled_y)
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, n_trees = tree, max_depth = depth, min_samples_split = min, validation_measure_auc = measure, error_rate = err_rate_randomForest)
