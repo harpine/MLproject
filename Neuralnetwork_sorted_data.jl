@@ -7,7 +7,7 @@ machines_folder = "machines"
 mkpath(machines_folder)
 
 #machine_subname = "sorted_mlp_2layers_6"
-machine_subname = "sorted_short8"
+machine_subname = "sorted_mlp_2layers_server1"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
