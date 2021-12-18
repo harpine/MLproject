@@ -11,8 +11,7 @@ tuned_model_KNN_class = TunedModel(model = model_KNN_class,
                                 measure = auc)
 
 
-mach_KNN_class = machine(tuned_model_KNN_class,
-regularized_training_filled_x_std,
+mach_KNN_class = machine(tuned_model_KNN_class, regularized_training_filled_x_norm,
                             training_filled_y) |> fit!
 
 # Tuned values : K
@@ -20,13 +19,13 @@ rep_KNN_class = report(mach_KNN_class)
 print("Fitted parameters: \n", "K = ", rep_KNN_class.best_model.K, "\n")
 
 # Error rate
-pred_KNN_class = predict_mode(mach_KNN_class, regularized_training_filled_x_std)
+pred_KNN_class = predict_mode(mach_KNN_class, regularized_training_filled_x_norm)
 err_rate_KNN_class = mean(pred_KNN_class .!= training_filled_y)
 print("Error rate in training set: ", err_rate_KNN_class, "\n") 
 
 # Predictions
-proba_KNN_class = predict(mach_KNN_class, regularized_test_x_std)
-prediction_KNN_class_df = DataFrame(id = 1:nrow(regularized_test_x_std), precipitation_nextday = broadcast(pdf, proba_KNN_class, true))
+proba_KNN_class = predict(mach_KNN_class, regularized_test_data_norm)
+prediction_KNN_class_df = DataFrame(id = 1:nrow(regularized_test_data_norm), precipitation_nextday = broadcast(pdf, proba_KNN_class, true))
 write_csv("KNN_classifier_filled_" * machine_subname * ".csv", prediction_KNN_class_df)
 
 # Plot
