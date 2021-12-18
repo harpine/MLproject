@@ -4,11 +4,8 @@ include("./utilities.jl")
 # plotting lasso path:
 
 import GLMNet: glmnet
-training_filled_x_std = deserialize(joinpath(dataset_folder, training_x_std_name))
-training_filled_y = deserialize(joinpath(dataset_folder, training_y_name))
 
-
-function sort_data_std(training_filled_x_std, training_filled_y)
+function sort_data_std(training_filled_x_std, training_filled_y, test_data_std)
     
     # weather_input = select(weather, Not(:LUZ_wind_peak))[1:end-5, :]
     # weather_output = weather.LUZ_wind_peak[6:end]
@@ -39,7 +36,7 @@ function sort_data_std(training_filled_x_std, training_filled_y)
 end
 #Not standardized 
 
-function sort_data_non_std(training_filled_x, training_filled_y)
+function sort_data_non_std(training_filled_x, training_filled_y, test_data)
     
     training_fits = glmnet(Array(training_filled_x), training_filled_y)
 

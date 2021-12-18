@@ -13,4 +13,6 @@ regularized_training_filled_x_norm = deserialize(joinpath(dataset_folder, regula
 
 test_data = deserialize(joinpath(dataset_folder, test_name))
 test_data_std = deserialize(joinpath(dataset_folder, test_std_name))
+regularized_test = deserialize(joinpath(dataset_folder, regularized_test_name))
+regularized_test_std = deserialize(joinpath(dataset_folder, regularized_test_std_name))
 regularized_test_data_norm = deserialize(joinpath(dataset_folder, regularized_test_norm_name))
