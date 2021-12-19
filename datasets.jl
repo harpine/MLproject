@@ -1,6 +1,3 @@
-using Pkg
-Pkg.activate(@__DIR__)
-using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux, MLJMultivariateStatsInterface
 include("./utilities.jl")
 
 training_filled_x = deserialize(joinpath(dataset_folder, training_x_name))
