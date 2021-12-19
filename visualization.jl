@@ -1,6 +1,7 @@
 
 include("./datasets.jl")
 
+# PCA VISUALIZATION
 function biplot(m; pc = 1:2)
     scores = MLJ.transform(m, m.data[1])
     p = scatter(getproperty(scores, Symbol(:x, pc[1])),
@@ -34,19 +35,39 @@ function biplot(m; pc = 1:2)
     p
 end
 
+pca_visualization = fit!(machine(PCA(), test_data_std))
+gr()
+biplot(pca_visualization)
+savefig(joinpath(plots_folder, "PCA_biplot_test.png"))
 
 
+# CORRELATION PLOT
+import GLMNet: glmnet
 
-# Correlation plot
-@df training_filled_x corrplot([:CHU_air_temp_1 :CHU_wind_1 :CHU_wind_direction_1 :DAV_radiation_1 :DAV_delta_pressure_1],
+training_fits = glmnet(Array(training_filled_x_std), training_filled_y)
+
+lambda = log.(training_fits.lambda)
+small = []
+col_names = names(training_filled_x_std)
+idx = findall(x->x<=-1.6, lambda)[1]
+for i in 1:size(training_fits.betas, 1)
+    if abs(training_fits.betas[i, idx]) < 1e-8
+        push!(small, col_names[i])
+    end
+end
+
+regularized_training_for_visualisation = select(training_filled_x_std, Not(small))
+print(names(regularized_training_for_visualisation))
+# The 4 most relevant predictors are ["CDF_sunshine_2", "ABO_sunshine_3", "CDF_sunshine_3", "SIO_sunshine_3"]
+
+# Correlation plot on the most relevant predictors, as chosen by the L1 regularization
+@df regularized_training_for_visualisation corrplot([:CDF_sunshine_2 :ABO_sunshine_3 :CDF_sunshine_3 :SIO_sunshine_3],
                      grid = false, fillcolor = cgrad(), size = (700, 700)) 
-# Ca marche, maintenant trouver les directions les plus intéressantes avec PCA?
+savefig(joinpath(plots_folder, "Corrplot.png"))
+
 
 # DataFrame of the training data
 schema(training_filled)
 
 
-pca_visualization = fit!(machine(PCA(), training_filled_x_std))
-gr()
-biplot(pca_visualization, pc=(1,2))
-savefig(joinpath(plots_folder, "PCA_biplot.png"))
+
