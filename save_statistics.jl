@@ -10,8 +10,10 @@ function save_statistics_neuronal(machine_subname, tuned_model, machine, ; short
     lamb = model_rep.lambda
     alph = model_rep.alpha
     n_hidd = "not appliable"
+    drop = "not appliable"
     if short_builder
         n_hidd = model_rep.builder.n_hidden
+        drop = model_rep.builder.dropout
     end
     hidd = "not appliable"
     if mlp_builder
@@ -25,7 +27,7 @@ function save_statistics_neuronal(machine_subname, tuned_model, machine, ; short
     pred_Neuralnetwork = predict_mode(machine,data)
     err_rate_Neuralnewtwork = mean(pred_Neuralnetwork .!= training_filled_y)
 
-    stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, epochs = ep, batch_size = batch, lambda = lamb, alpha = alph, n_hidden = n_hidd, hiddden = hidd, validation_measure_auc = measure, error_rate = err_rate_Neuralnewtwork)
+    stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, epochs = ep, batch_size = batch, lambda = lamb, alpha = alph, n_hidden = n_hidd, hiddden = hidd, dropout = drop, validation_measure_auc = measure, error_rate = err_rate_Neuralnewtwork)
     write_stat("Neuralnetwork_" * machine_subname * ".csv", stats)
 end
 

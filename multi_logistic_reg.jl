@@ -28,6 +28,9 @@ write_csv("multi_logistic_reg_tuned_l1_filled_" * machine_subname * ".csv", pred
 
 save_logistic_reg(machine_subname, tuned_model_mult_logistic_reg_l1,mach_mult_logistic_reg_l1)
 
+MLJ.save(joinpath(machines_folder,"mach_logistic_reg_" * machine_subname * ".jlso"), mach_mult_logistic_reg_l1)
+
+
 
 # Multiple logistic regression with ridge regularization (l2) tuned:
 
@@ -55,3 +58,5 @@ prediction_mult_logistic_reg_l2_df = DataFrame(id = 1:nrow(test_data_std), preci
 write_csv("multi_logistic_reg_tuned_l2_filled_" * machine_subname * ".csv", prediction_mult_logistic_reg_l2_df)
 
 save_logistic_reg(machine_subname, tuned_model_mult_logistic_reg_l2, mach_mult_logistic_reg_l2)
+
+MLJ.save(joinpath(machines_folder,"mach_logistic_reg_" * machine_subname * ".jlso"), mach_mult_logistic_reg_l2)
