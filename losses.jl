@@ -2,6 +2,7 @@ include("datasets.jl")
 machine_subname = "sorted_mlp_2layers_6"
 mach_Neuralnetwork_tuned = machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"))
 
+
 area_under_curve(predict(mach_Neuralnetwork_tuned, regularized_training_filled_x_std), training_filled_y)
 
 

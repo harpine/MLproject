@@ -2,11 +2,12 @@
 include("./datasets.jl")
 #include("loss_saver.jl")
 
+Random.seed!(3)
 machines_folder = "machines"
 mkpath(machines_folder)
 
 #machine_subname = "sorted_mlp_2layers_6"
-machine_subname = "sorted_mlp_2layers_7_CV20"
+machine_subname = "sorted_mlp_2layers_7_CV20_bis"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
