@@ -19,7 +19,7 @@ function short_neuralnetwork(machine_subname)
                                                     range(model_Neuralnetwork, :batch_size, values = [80,85,90]), 
                                                     range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), 
                                                     range(model_Neuralnetwork, :(builder.dropout), values = [0.4,0.5,0.6])]
-                                            )#, acceleration=CUDALibs()) #, tune: optimiser, 
+                                            )
 
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)
 
