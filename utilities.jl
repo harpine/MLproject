@@ -4,6 +4,9 @@ using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestN
 
 include("./save_statistics.jl")
 
+training_data_name = "trainingdata.csv"
+test_data_name = "testdata.csv"
+
 output_folder_name = "outputs"
 output_folder = joinpath(@__DIR__, output_folder_name)
 mkpath(output_folder)
@@ -54,3 +57,29 @@ function write_stat(output_file_name, dataframe)
 end
 
 Random.seed!(3)
+
+machines_dictionnary = Dict("Logistic_l2" => machine_subname -> logistic_l2(machine_subname),
+                        "KNN" => machine_subname -> KNN(machine_subname), 
+                        "RandomForest" => machine_subname -> RandomForest(machine_subname), 
+                        "Short_Neuralnetwork" => machine_subname -> short_Neuralnetwork(machine_subname), 
+                        "Mlp_Neuralnetwork" => machine_subname -> mlp_Neuralnetwork(machine_subname))
+
+"""
+        *(type_machine, machine_subname, best_machines = true) # = true à mettre dans la docstring????
+        Allow to choose a machine, run it, and save the different outptuts, with the subname of the machine.
+        The possibilities of machine type are: "Logistic_l1" , "Logistic_l2", "KNN" "Short_Neuralnetwork", "Mlp_Neuralnetwork", "RandomForest"
+"""
+function run_machine(type_machine, machine_subname)
+    machines_dictionnary[type_machine]
+
+end
+
+
+"""
+        *(machines)
+        allow to tune and apply some machines; 
+        "all" = all machines
+        "best" = best machines 
+        "Logistic_l2", "KNN", "RandomForest", "Short_Neuralnetwork" or "Mlp_Neuralnetwork" = run only the given machine
+"""
+function run(machines = "1") 

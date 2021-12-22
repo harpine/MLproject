@@ -35,7 +35,7 @@ function biplot(m; pc = 1:2)
     p
 end
 
-pca_visualization = fit!(machine(PCA(), test_data_std))
+pca_visualization = fit!(machine(PCA(), training_filled_x_std))
 gr()
 biplot(pca_visualization)
 savefig(joinpath(plots_folder, "PCA_biplot_test.png"))

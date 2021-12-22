@@ -1,6 +1,6 @@
 
 
-function save_statistics_neuronal(machine_subname, tuned_model, machine, ; short_builder = false, mlp_builder = false, regularized = false)
+function save_statistics_neuronal(machine_subname, tuned_model, machine, ; build_type, regularized = false)
     
     tuning_param = [tuned_model.range]
 
@@ -11,12 +11,12 @@ function save_statistics_neuronal(machine_subname, tuned_model, machine, ; short
     alph = model_rep.alpha
     n_hidd = "not appliable"
     drop = "not appliable"
-    if short_builder
+    if build_type == "short"
         n_hidd = model_rep.builder.n_hidden
         drop = model_rep.builder.dropout
     end
     hidd = "not appliable"
-    if mlp_builder
+    if build_type == "mlp"
         hidd = model_rep.builder.hidden
     end
     data = training_filled_x_std
