@@ -24,7 +24,7 @@ function short_neuralnetwork(machine_subname)
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)
 
 
-
+    
 
     # Tuning parameters
     print("Tuning parameters: ", tuned_model_Neuralnetwork.range, "\n", "\n") 
@@ -32,7 +32,7 @@ function short_neuralnetwork(machine_subname)
     # Tuned values : epochs, batch_size, lambda, alpha
     rep_Neuralnetwork = report(mach_Neuralnetwork_tuned)
     model_report = rep_Neuralnetwork.best_model
-    print("Fitted parameters: \n", "epochs: ", model_report.epochs, "\n", "batch_size: ", model_report.batch_size, "\n", "lambda: ", model_report.lambda, "\n", "alpha: ", model_report.alpha, "\n", "n_hidden: ", model_report.builder.n_hidden, "\n", "\n")
+    print("Fitted parameters: \n", "epochs: ", model_report.epochs, "\n", "batch_size: ", model_report.batch_size, "\n", "lambda: ", model_report.lambda, "\n", "alpha: ", model_report.alpha, "\n", "n_hidden: ", model_report.builder.n_hidden, "\n", "dropout: ", model_report.builder.dropout, "\n", "\n")
 
     # measurement
     print("AUC measurement: ", rep_Neuralnetwork.best_history_entry.measurement, "\n")

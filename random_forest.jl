@@ -35,6 +35,9 @@ function random_forest(machine_subname)
     err_rate_RandomForest = mean(pred_RandomForest .!= data_training_y)
     print("Error rate in training set: ", err_rate_RandomForest, "\n")
 
+    # AUC
+    print("AUC on training set:", area_under_curve(predict(mach_RandomForest, data_training_x), data_training_y), "\n")
+
     # Predictions
     proba_RandomForest = predict(mach_RandomForest, data_test)
     prediction_RandomForest_df = DataFrame(id = 1:nrow(data_test), precipitation_nextday = broadcast(pdf, proba_RandomForest, true))
