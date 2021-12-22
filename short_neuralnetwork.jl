@@ -1,4 +1,3 @@
-include("./datasets.jl")
 
 function short_neuralnetwork(machine_subname)
 

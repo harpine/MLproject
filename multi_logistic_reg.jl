@@ -1,8 +1,6 @@
-include("./datasets.jl")
-
 # Multiple logistic regression with ridge regularization (l2) tuned:
 
-function logistic_l2(machine_subname)
+function logistic_reg_l2(machine_subname)
     model_mult_logistic_reg_l2 = LogisticClassifier(penalty = :l2)
 
     tuned_model_mult_logistic_reg_l2 = TunedModel(model = model_mult_logistic_reg_l2,

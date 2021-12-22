@@ -52,3 +52,8 @@ Machines:
 # Execution
 - (reproducibility of results)
 - user interface 
+
+initialization.jl
+Have a look at the paths and file names defined in `utilities.jl`. Feel free to change them to your conveniance, in particular the `dataset_folder_name` which corresponds to the relative path to the datasets (training & test) folder. An empty folder has been created in the actual repository to allow you to put your data inside. 
+
+data_preprocessing.jl

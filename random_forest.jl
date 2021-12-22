@@ -1,5 +1,3 @@
-include("./datasets.jl")
-
 
 function random_forest(machine_subname)
     data_training_x = training_filled_x
@@ -52,5 +50,3 @@ function random_forest(machine_subname)
     # Saving machine
     MLJ.save(joinpath(machines_folder,"mach_random_forest_" * machine_subname * ".jlso"), mach_RandomForest)
 end
-
-random_forest("test_CV20_3")
