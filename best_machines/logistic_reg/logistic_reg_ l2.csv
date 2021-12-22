@@ -1,0 +1,2 @@
+machine,tuning_parameters,model_report,lambda,validation_measure_auc,error_rate
+l2,"NumericRange(50.0 ≤ lambda ≤ 200.0; origin=125.0, unit=75.0) on log scale",LogisticClassifier,125.99210498948723,0.925891600415427,0.12185138539042821
