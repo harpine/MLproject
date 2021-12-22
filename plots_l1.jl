@@ -20,11 +20,9 @@ training_fits = glmnet(Array(training_filled_x), training_filled_y)
         end
     
     end
-    importants
+    
     importants = sort(importants, rev = true)
     for (idx, val) in enumerate(importants)
-        print(val)
-        print(idx)
         plot!(lambda, training_fits.betas[val[2], :], label = col_names[val[2]])
     end
     

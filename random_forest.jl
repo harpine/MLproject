@@ -2,17 +2,16 @@ include("./datasets.jl")
 
 
 function random_forest(machine_subname)
-    data_training_x = regularized_training_filled_x
+    data_training_x = training_filled_x
     data_training_y = training_filled_y
     data_test = regularized_test
 
-    model_RandomForest = RandomForestClassifier(#= max_depth = 40, min_samples_split = 35 , n_trees = 40 =#)
+    model_RandomForest = RandomForestClassifier(min_samples_split = 10)
     tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                     tuning =  Grid(),
                                     resampling = CV(nfolds = 20),
-                                    range = [range(model_RandomForest, :n_trees, lower = 1500, upper = 2000),
-                                    range(model_RandomForest, :min_samples_split , values = [5, 10, 15]),
-                                    range(model_RandomForest, :max_depth , lower = 20, upper = 60)],
+                                    range = [range(model_RandomForest, :n_trees, values = [1859, 1900, 1950]),
+                                    range(model_RandomForest, :max_depth , values = [95, 100, 105, 110])],
                                     measure = auc)
 
     mach_RandomForest = fit!(machine(tuned_model_RandomForest,
@@ -54,4 +53,4 @@ function random_forest(machine_subname)
     MLJ.save(joinpath(machines_folder,"mach_random_forest_" * machine_subname * ".jlso"), mach_RandomForest)
 end
 
-
+random_forest("test_CV20_3")
