@@ -29,7 +29,7 @@ function short_neuralnetwork(machine_subname)
     # Tuning parameters
     print("Tuning parameters: ", tuned_model_Neuralnetwork.range, "\n", "\n") 
 
-    # Tuned values : epochs, batch_size, lambda, alpha
+    # Tuned values : epochs, batch_size, lambda, alpha, n_hidden, dropout
     rep_Neuralnetwork = report(mach_Neuralnetwork_tuned)
     model_report = rep_Neuralnetwork.best_model
     print("Fitted parameters: \n", "epochs: ", model_report.epochs, "\n", "batch_size: ", model_report.batch_size, "\n", "lambda: ", model_report.lambda, "\n", "alpha: ", model_report.alpha, "\n", "n_hidden: ", model_report.builder.n_hidden, "\n", "dropout: ", model_report.builder.dropout, "\n", "\n")
@@ -48,19 +48,17 @@ function short_neuralnetwork(machine_subname)
     # Predictions
     proba_Neuralnetwork = predict(mach_Neuralnetwork_tuned, data_test)
     prediction_Neuralnetwork_df = DataFrame(id = 1:nrow(data_test), precipitation_nextday = broadcast(pdf,proba_Neuralnetwork, true))
-    write_csv("neural_newtork_tuned_" * machine_subname * ".csv", prediction_Neuralnetwork_df)
+    write_csv("short_neuralnetwork_" * machine_subname * ".csv", prediction_Neuralnetwork_df)
 
     # Plot
     plot(mach_Neuralnetwork_tuned)
-    savefig(joinpath(plots_folder, "plot_short_neuralnetwork_tuning_auc_" * machine_subname * ".png"))
+    savefig(joinpath(plots_folder, "plot_short_neuralnetwork_" * machine_subname * ".png"))
 
     # Saving statistics
     save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, build_type = "short", regularized = true)
 
     # Saving machine
-    MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
+    MLJ.save(joinpath(machines_folder,"mach_short_neuralnetwork_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
 
 
 end
-
-short_neuralnetwork("test_short")

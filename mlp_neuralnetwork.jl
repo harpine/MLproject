@@ -22,8 +22,6 @@ function  mlp_neuralnetwork(machine_subname)
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)
 
 
-
-
     # Tuning parameters
     print("Tuning parameters: ", tuned_model_Neuralnetwork.range, "\n", "\n") 
 
@@ -46,17 +44,17 @@ function  mlp_neuralnetwork(machine_subname)
     # Predictions
     proba_Neuralnetwork = predict(mach_Neuralnetwork_tuned, data_test)
     prediction_Neuralnetwork_df = DataFrame(id = 1:nrow(data_test), precipitation_nextday = broadcast(pdf,proba_Neuralnetwork, true))
-    write_csv("neural_newtork_tuned_" * machine_subname * ".csv", prediction_Neuralnetwork_df)
+    write_csv("mlp_neuralnewtork_" * machine_subname * ".csv", prediction_Neuralnetwork_df)
 
     # Plot
     plot(mach_Neuralnetwork_tuned)
-    savefig(joinpath(plots_folder, "plot_short_neuralnetwork_tuning_auc_" * machine_subname * ".png"))
+    savefig(joinpath(plots_folder, "plot_mlp_neuralnetwork_" * machine_subname * ".png"))
 
     # Saving statistics
     save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, build_type = "mlp", regularized = true)
 
     # Saving machine
-    MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
+    MLJ.save(joinpath(machines_folder,"mach_Neuralnetwork_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
 
 
 end

@@ -20,7 +20,7 @@ function knn(machine_subname)
 
         # Tuned values : K
         rep_KNN_class = report(mach_KNN_class)
-        print("Fitted parameters: \n", "K = ", rep_KNN_class.best_model.K, "\n")
+        print("Fitted parameters: \n", "K: ", rep_KNN_class.best_model.K, "\n", "\n")
 
         # Error rate
         pred_KNN_class = predict_mode(mach_KNN_class, data_training_x)
@@ -33,15 +33,15 @@ function knn(machine_subname)
         # Predictions
         proba_KNN_class = predict(mach_KNN_class, data_test)
         prediction_KNN_class_df = DataFrame(id = 1:nrow(data_test), precipitation_nextday = broadcast(pdf, proba_KNN_class, true))
-        write_csv("KNN_classifier_filled_" * machine_subname * ".csv", prediction_KNN_class_df)
+        write_csv("knn_" * machine_subname * ".csv", prediction_KNN_class_df)
 
         # Plot
         plot(mach_KNN_class)
-        savefig(joinpath(plots_folder, "plot_KNN_class_tuning_auc_" * machine_subname * ".png"))
+        savefig(joinpath(plots_folder, "plot_knn_" * machine_subname * ".png"))
 
         # Saving statistics
         save_statistics_KNN_class(machine_subname, tuned_model_KNN_class, mach_KNN_class, data_training_x, data_training_y)
 
         # Saving machine
-        MLJ.save(joinpath(machines_folder,"mach_KNN_class_filled_" * machine_subname * ".jlso"), mach_KNN_class)
+        MLJ.save(joinpath(machines_folder,"mach_knn_" * machine_subname * ".jlso"), mach_KNN_class)
 end

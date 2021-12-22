@@ -28,7 +28,7 @@ function save_statistics_neuronal(machine_subname, tuned_model, machine, ; build
     err_rate_Neuralnewtwork = mean(pred_Neuralnetwork .!= training_filled_y)
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, epochs = ep, batch_size = batch, lambda = lamb, alpha = alph, n_hidden = n_hidd, hiddden = hidd, dropout = drop, validation_measure_auc = measure, error_rate = err_rate_Neuralnewtwork)
-    write_stat("Neuralnetwork_" * machine_subname * ".csv", stats)
+    write_stat("neuralnetwork_" * machine_subname * ".csv", stats)
 end
 
 
@@ -53,7 +53,7 @@ function save_statistics_neuronal_old(machine_subname, machine, short_builder = 
     measure = report(machine).best_history_entry.measurement
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = " ", model_report = model_rep, epochs = ep, batch_size = batch, lambda = lamb, alpha = alph, validation_measure_auc = measure, error_rate = err_rate_Neuralnewtwork)
-    write_stat("Neuralnetwork_" * machine_subname * ".csv", stats)
+    write_stat("neuralnetwork_" * machine_subname * ".csv", stats)
 end
 
 function save_statistics_randomForest(machine_subname, tuned_model, machine, data_training_x, data_training_y)
@@ -70,7 +70,7 @@ function save_statistics_randomForest(machine_subname, tuned_model, machine, dat
     err_rate_randomForest = mean(pred_randomForest .!= data_training_y)
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, n_trees = tree, max_depth = depth, min_samples_split = min, validation_measure_auc = measure, error_rate = err_rate_randomForest)
-    write_stat("RandomForest_" * machine_subname * ".csv", stats)
+    write_stat("random_forest_" * machine_subname * ".csv", stats)
 end
 
 function save_statistics_randomForest_old(machine_subname, machine)
@@ -85,7 +85,7 @@ function save_statistics_randomForest_old(machine_subname, machine)
     err_rate_randomForest = mean(pred_randomForest .!= training_filled_y)
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = " ", model_report = model_rep, n_trees = tree, max_depth = depth, min_samples_split = min, validation_measure_auc = measure, error_rate = err_rate_randomForest)
-    write_stat("RandomForest_" * machine_subname * ".csv", stats)
+    write_stat("random_forest_" * machine_subname * ".csv", stats)
 end
 
 function save_statistics_KNN_class(machine_subname, tuned_model, machine, data_training_x, data_training_y)
@@ -101,7 +101,7 @@ function save_statistics_KNN_class(machine_subname, tuned_model, machine, data_t
     err_rate_KNN_class = mean(pred_KNN_class .!= data_training_y)
 
     stats = DataFrame(machine = machine_subname, tuning_parameters = tuning_param, model_report = model_rep, K = K_value, validation_measure_auc = measure, error_rate = err_rate_KNN_class)
-    write_stat("KNN_class_ " * machine_subname * ".csv", stats)
+    write_stat("knn_ " * machine_subname * ".csv", stats)
 end
 
 
