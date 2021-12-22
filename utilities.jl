@@ -58,11 +58,12 @@ end
 
 Random.seed!(3)
 
-machines_dictionnary = Dict("Logistic_l2" => machine_subname -> logistic_l2(machine_subname),
-                        "KNN" => machine_subname -> knn(machine_subname), 
-                        "RandomForest" => machine_subname -> random_forest(machine_subname), 
-                        "Short_Neuralnetwork" => machine_subname -> short_neuralnetwork(machine_subname), 
-                        "Mlp_Neuralnetwork" => machine_subname -> mlp_neuralnetwork(machine_subname))
+machines_dictionnary = Dict("logistic_l2" => machine_subname -> logistic_l2(machine_subname),
+                        "knn" => machine_subname -> knn(machine_subname), 
+                        "random_forest" => machine_subname -> random_forest(machine_subname), 
+                        "short_neuralnetwork" => machine_subname -> short_neuralnetwork(machine_subname), 
+                        "mlp_neuralnetwork" => machine_subname -> mlp_neuralnetwork(machine_subname))
+
 
 """
         *(type_machine, machine_subname, best_machines = true) # = true à mettre dans la docstring????
@@ -70,16 +71,33 @@ machines_dictionnary = Dict("Logistic_l2" => machine_subname -> logistic_l2(mach
         The possibilities of machine type are: "Logistic_l1" , "Logistic_l2", "KNN" "Short_Neuralnetwork", "Mlp_Neuralnetwork", "RandomForest"
 """
 function run_machine(type_machine, machine_subname)
-    machines_dictionnary[type_machine]
-
+    machines_dictionnary[type_machine](machine_subname)
 end
 
+best_models = ["short_neuralnetwork", "mlp_neuralnetwork"]
 
 """
-        *(machines)
+        *(machines, single_subname)
         allow to tune and apply some machines; 
         "all" = all machines
         "best" = best machines 
-        "Logistic_l2", "KNN", "RandomForest", "Short_Neuralnetwork" or "Mlp_Neuralnetwork" = run only the given machine
+        "logistic_l2", "knn", "random_forest", "short_neuralnetwork" or "mlp_neuralnetwork" = run only the given machine. 
+        If you chose to run them one by one, you can specify the string subname of the machine in the second argument. 
 """
-function run(machines = "1") 
+function run_test(machines = "all", single_subname  = "") 
+    if machines == "all"
+        for (type, func) in x
+        run_machine(type, type)
+        end
+    elseif machines == "best"
+        for type in best_models
+        run_machine(type, type * "best")
+        end
+    else
+        if single_subname == ""
+            single_subname = machines
+        end
+        run_machine(machines, single_subname)
+    end
+
+end

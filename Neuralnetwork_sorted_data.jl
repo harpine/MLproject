@@ -73,6 +73,7 @@ plot(mach_Neuralnetwork_tuned)
 
 print("tuning parameters: ", tuned_model_Neuralnetwork.range, "\n")
 model_report = report(mach_Neuralnetwork_tuned).best_history_entry.model
+report(mach_Neuralnetwork_tuned).best_model
 print(model_report)
 
 # param_df = Dataframe("parameters" = ) save parameters in a file ?
