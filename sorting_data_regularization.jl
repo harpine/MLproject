@@ -69,21 +69,22 @@ end
 
 
 
-function normalize_regularized_data(data)
+function write_normalized_regularized_data(training_data_x, test_data)
+    data = training_data_x
+    data_for_test = test_data
     for i in 1:(size(data,2))
         # Conversion of all columns into Float64
         if typeof(data[:, i][1]) != Float64
             data[!, i] = Float64.(data[:, i])
+            data_for_test[!, i] = Float64.(data_for_test[:,i])
         end
         mini = minimum(data[:, i])
         maxi = maximum(data[:, i])
         data[:, i] = (data[:, i] .- mini) ./ (maxi - mini)
+        data_for_test[:, i] = (data_for_test[:, i] .- mini) ./ (maxi - mini)
     end
-    return data
-end
-
-function write_normalized_regularized_data(training_data_x, test_data)
-    write_preprocess_data(regularized_training_filled_x_norm_name, normalize_regularized_data(training_data_x))
-    write_preprocess_data(regularized_test_norm_name, normalize_regularized_data(test_data))
+    
+    write_preprocess_data(regularized_training_filled_x_norm_name, data)
+    write_preprocess_data(regularized_test_norm_name, data_for_test)
 end
 

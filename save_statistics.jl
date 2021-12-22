@@ -56,7 +56,7 @@ function save_statistics_neuronal_old(machine_subname, machine, short_builder = 
     write_stat("Neuralnetwork_" * machine_subname * ".csv", stats)
 end
 
-function save_statistics_randomForest(machine_subname, tuned_model, machine)
+function save_statistics_randomForest(machine_subname, tuned_model, machine, data_training_x, data_training_y)
     
     tuning_param = [tuned_model.range]
 
