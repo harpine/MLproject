@@ -4,7 +4,7 @@ include("./datasets.jl")
 function random_forest(machine_subname)
     data_training_x = training_filled_x
     data_training_y = training_filled_y
-    data_test = regularized_test
+    data_test = test_data
 
     model_RandomForest = RandomForestClassifier(min_samples_split = 10)
     tuned_model_RandomForest = TunedModel(model = model_RandomForest,
@@ -18,6 +18,8 @@ function random_forest(machine_subname)
                                 data_training_x,
                                 data_training_y), verbosity = 4)
 
+    # Saving machine
+    MLJ.save(joinpath(machines_folder,"mach_random_forest_" * machine_subname * ".jlso"), mach_RandomForest)
 
     # Tuned values : n_trees, max_depth, min_samples_split
     rep_RandomForest = report(mach_RandomForest)
@@ -42,15 +44,13 @@ function random_forest(machine_subname)
     prediction_RandomForest_df = DataFrame(id = 1:nrow(data_test), precipitation_nextday = broadcast(pdf, proba_RandomForest, true))
     write_csv("random_forest_" * machine_subname * ".csv", prediction_RandomForest_df)
 
+    # Saving statistics
+    save_statistics_randomForest(machine_subname, tuned_model_RandomForest, mach_RandomForest, data_training_x, data_training_y)
+
     # Plot
     plot(mach_RandomForest)
     savefig(joinpath(plots_folder, "plot_random_forest_" * machine_subname * ".png"))
 
-    # Saving statistics
-    save_statistics_randomForest(machine_subname, tuned_model_RandomForest, mach_RandomForest, data_training_x, data_training_y)
-
-    # Saving machine
-    MLJ.save(joinpath(machines_folder,"mach_random_forest_" * machine_subname * ".jlso"), mach_RandomForest)
 end
 
 random_forest("test_CV20_3")

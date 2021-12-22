@@ -18,6 +18,9 @@ function knn(machine_subname)
         mach_KNN_class = machine(tuned_model_KNN_class, data_training_x,
                                 data_training_y) |> fit!
 
+        # Saving machine
+        MLJ.save(joinpath(machines_folder,"mach_knn_" * machine_subname * ".jlso"), mach_KNN_class)
+
         # Tuned values : K
         rep_KNN_class = report(mach_KNN_class)
         print("Fitted parameters: \n", "K: ", rep_KNN_class.best_model.K, "\n", "\n")
@@ -41,7 +44,4 @@ function knn(machine_subname)
 
         # Saving statistics
         save_statistics_KNN_class(machine_subname, tuned_model_KNN_class, mach_KNN_class, data_training_x, data_training_y)
-
-        # Saving machine
-        MLJ.save(joinpath(machines_folder,"mach_knn_" * machine_subname * ".jlso"), mach_KNN_class)
 end

@@ -38,7 +38,7 @@ end
 pca_visualization = fit!(machine(PCA(), training_filled_x_std))
 gr()
 biplot(pca_visualization)
-savefig(joinpath(plots_folder, "PCA_biplot_2.png"))
+savefig(joinpath(plots_folder, "PCA_biplot.png"))
 
 
 # CORRELATION PLOT
@@ -49,25 +49,23 @@ training_fits = glmnet(Array(training_filled_x_std), training_filled_y)
 lambda = log.(training_fits.lambda)
 small = []
 col_names = names(training_filled_x_std)
-idx = findall(x->x<=-1.6, lambda)[1]
+idx = findall(x->x<=-8.0, lambda)[1]
+importants = []
 for i in 1:size(training_fits.betas, 1)
+    if abs(training_fits.betas[i, idx]) > 0.25
+        push!(importants, (abs(training_fits.betas[i, idx]),i))
+    end
     if abs(training_fits.betas[i, idx]) < 1e-8
         push!(small, col_names[i])
     end
 end
-
-regularized_training_for_visualisation = select(training_filled_x_std, Not(small))
-print(names(regularized_training_for_visualisation))
-# The 4 most relevant predictors are ["CDF_sunshine_2", "ABO_sunshine_3", "CDF_sunshine_3", "SIO_sunshine_3"]
+importants = sort(importants, rev = true)[1:5]
+for (idx, val) in enumerate(importants)
+    print(col_names[val[2]], ", ")
+end
+# The 5 most relevant predictors are PUY_air_temp_4, BER_air_temp_4, SIO_air_temp_4, NEU_air_temp_4, CDF_air_temp_4
 
 # Correlation plot on the most relevant predictors, as chosen by the L1 regularization
-@df regularized_training_for_visualisation corrplot([:CDF_sunshine_2 :ABO_sunshine_3 :CDF_sunshine_3 :SIO_sunshine_3],
+@df training_filled_x_std corrplot([:PUY_air_temp_4 :BER_air_temp_4 :SIO_air_temp_4 :NEU_air_temp_4 :CDF_air_temp_4],
                      grid = false, fillcolor = cgrad(), size = (700, 700)) 
 savefig(joinpath(plots_folder, "Corrplot.png"))
-
-
-# DataFrame of the training data
-schema(training_filled)
-
-
-

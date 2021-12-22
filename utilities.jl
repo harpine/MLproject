@@ -7,6 +7,10 @@ include("./save_statistics.jl")
 training_data_name = "trainingdata.csv"
 test_data_name = "testdata.csv"
 
+dataset_folder_name = "datasets"
+dataset_folder = joinpath(@__DIR__, dataset_folder_name)
+mkpath(dataset_folder)
+
 output_folder_name = "outputs"
 output_folder = joinpath(@__DIR__, output_folder_name)
 mkpath(output_folder)

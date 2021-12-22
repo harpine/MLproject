@@ -23,8 +23,8 @@ function short_neuralnetwork(machine_subname)
 
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)
 
-
-    
+    # Saving machine
+    MLJ.save(joinpath(machines_folder,"mach_short_neuralnetwork_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
 
     # Tuning parameters
     print("Tuning parameters: ", tuned_model_Neuralnetwork.range, "\n", "\n") 
@@ -56,9 +56,4 @@ function short_neuralnetwork(machine_subname)
 
     # Saving statistics
     save_statistics_neuronal(machine_subname, tuned_model_Neuralnetwork, mach_Neuralnetwork_tuned, build_type = "short", regularized = true)
-
-    # Saving machine
-    MLJ.save(joinpath(machines_folder,"mach_short_neuralnetwork_" * machine_subname * ".jlso"), mach_Neuralnetwork_tuned)
-
-
 end
