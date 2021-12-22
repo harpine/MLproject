@@ -1,9 +1,10 @@
 include("./datasets.jl")
 
+
+function ra
 data_training_x = regularized_training_filled_x
 data_training_y = training_filled_y
 data_test = regularized_test
-machine_subname = "regularized_CV_20_10"
 
 model_RandomForest = RandomForestClassifier(#= max_depth = 40, =# min_samples_split = 35 #= , n_trees = 40 =#)
 tuned_model_RandomForest = TunedModel(model = model_RandomForest,
