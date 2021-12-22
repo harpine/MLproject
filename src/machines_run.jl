@@ -1,11 +1,3 @@
-# include("./datasets.jl")
-# include("./multi_logistic_reg.jl")
-# include("./knn_classification.jl")
-# include("./random_forest.jl")
-# include("./short_neuralnetwork.jl")
-# include("./mlp_neuralnetwork.jl")
-
-
 
 machines_dictionnary = Dict("logistic_reg" => machine_subname -> logistic_reg_l2(machine_subname),
                             "knn" => machine_subname -> knn(machine_subname), 
@@ -33,19 +25,16 @@ allow to tune and apply some machines;
 "logistic_reg", "knn", "random_forest", "short_neuralnetwork" or "mlp_neuralnetwork" = run only the given machine. 
 If you chose to run one specific type of machine, you can specify the string subname of the machine in the second argument. 
 """
-function run_machines(machines, single_subname  = " ") 
+function run_machines(machines, single_subname  = "tuned") 
     if machines == "all"
         for (type, func) in x
-            run_machine(type, type)
+            run_machine(type, single_subname)
         end
     elseif machines == "best"
         for type in best_models
-            run_machine(type, type * "best")
+            run_machine(type, "best")
         end
     else
-        if single_subname == " "
-            single_subname = "tuned"
-        end
         run_machine(machines, single_subname)
     end
 

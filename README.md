@@ -33,13 +33,13 @@ The Manifest.toml and Project.toml give information about the versions of depend
 You can install the dependencies with the command pkg.instantiate(). This command is included in the data_preprocessing script. 
 
 ## Scripts
-- main.jl
+- script.jl
 - data_preprocessing.jl: preprocesses the data and put them in the datasets folder, in serialized format
 - sorting_data_regularization.jl: provides function to compute the regularized datasets. The functions are used in data_preprocessing.jl
 - 
 
 Machines:
-- multi_logistic_reg.jl
+- logistic_reg.jl
 - knn.jl
 - short_neuralnetwork.jl
 - mlp_neuralnetwork.jl

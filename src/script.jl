@@ -13,7 +13,7 @@ function parse_commandline()
         "--machine_subname"
             help = "If you chose to run one specific type of machine, you can specify the string subname of the machine in the second argument. "
             arg_type = String
-            default = " "
+            default = "tuned"
 
     end
     return parse_args(s)
@@ -31,11 +31,7 @@ function preparation()
     # print("Preprocessing data:")
     # preprocess_data(training_data, test_data)
 
-    include("./logistic_reg.jl")
-    include("./knn_classification.jl")
-    include("./random_forest.jl")
-    include("./short_neuralnetwork.jl")
-    include("./mlp_neuralnetwork.jl")
+    include("./machines.jl")
     include("./machines_run.jl")
 
     return machines, machine_subname
