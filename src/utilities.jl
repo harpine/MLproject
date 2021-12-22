@@ -1,5 +1,5 @@
 using Pkg
-Pkg.activate(@__DIR__)
+Pkg.activate(joinpath(@__DIR__, ".."))
 using Plots, StatsPlots, DataFrames, Random, CSV, MLJ, MLJLinearModels, NearestNeighborModels, CategoricalDistributions, CategoricalArrays, MLJLIBSVMInterface, MLJDecisionTreeInterface, MLJFlux, Flux, MLJMultivariateStatsInterface, Serialization, ArgParse
 
 include("./save_statistics.jl")
@@ -9,23 +9,23 @@ training_data_name = "trainingdata.csv"
 test_data_name = "testdata.csv"
 
 # Folders name and location 
-dataset_folder_name = "datasets"
+dataset_folder_name = joinpath( "..","datasets")
 dataset_folder = joinpath(@__DIR__, dataset_folder_name)
 mkpath(dataset_folder)
 
-output_folder_name = "outputs"
+output_folder_name = joinpath("..", "outputs")
 output_folder = joinpath(@__DIR__, output_folder_name)
 mkpath(output_folder)
 
-machines_folder_name = "machines"
+machines_folder_name = joinpath("..", "machines")
 machines_folder = joinpath(@__DIR__, machines_folder_name)
 mkpath(machines_folder)
 
-plots_folder_name = "plots"
+plots_folder_name = joinpath("..", "plots")
 plots_folder = joinpath(@__DIR__, plots_folder_name)
 mkpath(plots_folder)
 
-stat_folder_name = "statistics"
+stat_folder_name = joinpath("..", "statistics")
 stat_folder = joinpath(@__DIR__, stat_folder_name)
 mkpath(stat_folder)
 

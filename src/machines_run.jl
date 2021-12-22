@@ -1,9 +1,9 @@
-include("./datasets.jl")
-include("./multi_logistic_reg.jl")
-include("./knn_classification.jl")
-include("./random_forest.jl")
-include("./short_neuralnetwork.jl")
-include("./mlp_neuralnetwork.jl")
+# include("./datasets.jl")
+# include("./multi_logistic_reg.jl")
+# include("./knn_classification.jl")
+# include("./random_forest.jl")
+# include("./short_neuralnetwork.jl")
+# include("./mlp_neuralnetwork.jl")
 
 
 
@@ -44,9 +44,8 @@ function run_machines(machines, single_subname  = " ")
         end
     else
         if single_subname == " "
-            single_subname = machines
+            single_subname = "tuned"
         end
-        print(single_subname)
         run_machine(machines, single_subname)
     end
 

@@ -53,7 +53,15 @@ Machines:
 - (reproducibility of results)
 - user interface 
 
-initialization.jl
+Be aware that the following commands have to be run from a bash terminal, as we use argumentparsing. 
+From the `src` folder, run
+```
+~/path/to/<Julia directory>/bin/julia initialization.jl
+```
+
 Have a look at the paths and file names defined in `utilities.jl`. Feel free to change them to your conveniance, in particular the `dataset_folder_name` which corresponds to the relative path to the datasets (training & test) folder. An empty folder has been created in the actual repository to allow you to put your data inside. 
 
-data_preprocessing.jl
+Then run 
+```
+~/path/to/<Julia directory>/bin/julia data_preprocessing.jl
+```

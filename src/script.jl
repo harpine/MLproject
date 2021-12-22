@@ -31,7 +31,7 @@ function preparation()
     # print("Preprocessing data:")
     # preprocess_data(training_data, test_data)
 
-    include("./multi_logistic_reg.jl")
+    include("./logistic_reg.jl")
     include("./knn_classification.jl")
     include("./random_forest.jl")
     include("./short_neuralnetwork.jl")
