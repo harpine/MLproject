@@ -6,8 +6,8 @@ Random.seed!(5)
 machines_folder = "machines"
 mkpath(machines_folder)
 
-machine_subname = "sorted_mlp_2layers_6_CV10_seed5"
-#machine_subname = "sorted_short10_1_CV20"
+# machine_subname = "sorted_mlp_2layers_6_CV10_seed5"
+machine_subname = "sorted_short10_1_CV20_seed5"
 # model_Neuralnetwork = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 100, relu),
 #                                                                                 #Dense(100,100,relu),
 #                                                                                 #Dense(100,100,relu),
@@ -37,7 +37,7 @@ model_Neuralnetwork = NeuralNetworkClassifier(
 
 #short builder : 
 
-tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 5), measure = auc, range = [range(model_Neuralnetwork, :epochs, values = [24,25,26]), range(model_Neuralnetwork, :batch_size, values = [80,85,90]), range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), range(model_Neuralnetwork, :(builder.dropout), values = [0.2,0.5,0.7])])#, acceleration=CUDALibs()) #, tune: optimiser, 
+tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, resampling= CV(nfolds = 20), measure = auc, range = [range(model_Neuralnetwork, :epochs, values = [24,25,26]), range(model_Neuralnetwork, :batch_size, values = [80,85,90]), range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), range(model_Neuralnetwork, :(builder.dropout), values = [0.2,0.5,0.7])])#, acceleration=CUDALibs()) #, tune: optimiser, 
 
 
 #short 10:
