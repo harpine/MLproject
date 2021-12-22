@@ -49,11 +49,11 @@ function write_preprocess_data(output_file_name, dataframe)
 end
 
 function write_csv(output_file_name, dataframe)
-    CSV.write(joinpath(output_folder, output_file_name), dataframe)
+    CSV.write(joinpath(output_folder, "output_" * output_file_name), dataframe)
 end
 
 function write_stat(output_file_name, dataframe)
-    CSV.write(joinpath(stat_folder, output_file_name), dataframe)
+    CSV.write(joinpath(stat_folder, "stats_" * output_file_name), dataframe)
 end
 
 Random.seed!(3)
