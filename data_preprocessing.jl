@@ -1,4 +1,3 @@
-include("./utilities.jl")
 include("./sorting_data_regularization.jl")
 
 function preprocess_data(training_data, test_data)
