@@ -59,10 +59,10 @@ end
 Random.seed!(3)
 
 machines_dictionnary = Dict("Logistic_l2" => machine_subname -> logistic_l2(machine_subname),
-                        "KNN" => machine_subname -> KNN(machine_subname), 
-                        "RandomForest" => machine_subname -> RandomForest(machine_subname), 
-                        "Short_Neuralnetwork" => machine_subname -> short_Neuralnetwork(machine_subname), 
-                        "Mlp_Neuralnetwork" => machine_subname -> mlp_Neuralnetwork(machine_subname))
+                        "KNN" => machine_subname -> knn(machine_subname), 
+                        "RandomForest" => machine_subname -> random_forest(machine_subname), 
+                        "Short_Neuralnetwork" => machine_subname -> short_neuralnetwork(machine_subname), 
+                        "Mlp_Neuralnetwork" => machine_subname -> mlp_neuralnetwork(machine_subname))
 
 """
         *(type_machine, machine_subname, best_machines = true) # = true à mettre dans la docstring????
