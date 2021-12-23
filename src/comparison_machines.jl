@@ -3,10 +3,10 @@ include("datasets.jl")
 
 import PlotlyJS
 
-machine_subname = "sorted_mlp_2layers_6_CV20"
+machine_subname = "sorted_mlp_2layers_6"
 mach_2layers= machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"))
 
-report(mach_2layers)
+plot(mach_2layers)
 
 per_fold_2layers = report(mach_2layers).best_history_entry.per_fold[1]
 
@@ -83,11 +83,9 @@ datafr = vcat(datafr, DataFrame(auc = per_fold_shortcv5_seed5, type = "SHORT_CV5
 datafr = vcat(datafr, DataFrame(auc = per_fold_shortcv10, type = "SHORT_CV10"))
 datafr = vcat(datafr, DataFrame(auc = per_fold_shortcv20, type = "SHORT_CV20"))
 datafr = vcat(datafr, DataFrame(auc = per_fold_shortcv20_seed5, type = "SHORT_CV20_seed5"))
+datafr = vcat(datafr, DataFrame(auc = per_fold_2layers, type = "MLP6"))
 
 
 print("2 layers : " , std(per_fold_2layers), " short : ", std(per_fold_short))
 
-
-
-PlotlyJS.plot(datafr, x=:type, y=:auc, kind="box", boxmean = true, boxpoints = "all")
-
+p = PlotlyJS.plot(datafr, x=:type, y=:auc, kind="box", boxmean = true, boxpoints = "all")

@@ -8,6 +8,9 @@ include("./save_statistics.jl")
 training_data_name = "trainingdata.csv"
 test_data_name = "testdata.csv"
 
+# Location of your original training and test data, path starting in the src folder.
+original_dataset_folder_name = joinpath( "..","datasets")
+
 # Folders name and location 
 dataset_folder_name = joinpath( "..","datasets")
 dataset_folder = joinpath(@__DIR__, dataset_folder_name)

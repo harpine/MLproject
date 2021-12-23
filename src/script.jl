@@ -25,17 +25,16 @@ function preparation()
     machines = parsed_args["machines"]
     machine_subname = parsed_args["machine_subname"]
 
-    # training_data = CSV.read(joinpath(@__DIR__, dataset_folder_name, training_data_name), DataFrame)
-    # test_data = CSV.read(joinpath(@__DIR__, dataset_folder_name, test_data_name), DataFrame)
+    training_data = CSV.read(joinpath(@__DIR__, original_dataset_folder_name, training_data_name), DataFrame)
+    test_data = CSV.read(joinpath(@__DIR__, original_dataset_folder_name, test_data_name), DataFrame)
 
-    # print("Preprocessing data:")
-    # preprocess_data(training_data, test_data)
+    print("Preprocessing data:")
+    preprocess_data(training_data, test_data)
 
     include("./machines.jl")
     include("./machines_run.jl")
 
     return machines, machine_subname
-    #run_machines("logistic_reg", " ")
 end
 
 

@@ -1,4 +1,6 @@
-include("datasets.jl")
+include("./datasets.jl")
+
+import GLMNet: glmnet
 
 training_fits = glmnet(Array(training_filled_x), training_filled_y)
 
