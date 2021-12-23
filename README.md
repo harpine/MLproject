@@ -3,9 +3,9 @@
 
 The aim of the project is to predict the probability of rain on the next day in Pully, given the meteorogical measurements in different measure stations of Switzerland.
 This project takes the form of a kaggle competition. The data are available here (with access only): https://www.kaggle.com/c/bio322-will-it-rain-tomorrow/overview.
-The submissions should be a CSV file containing the probability of raining for each row of the test data. 
+The submissions should be a CSV file containing the probability of raining for each row of the test data.
 
-## Requirements 
+## Requirements
 This programm has been coded in Julia, using version 1.7.0 and uses the following packages in the given version:
 
 - CSV v0.9.11
