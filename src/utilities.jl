@@ -24,6 +24,10 @@ machines_folder_name = joinpath("..", "machines")
 machines_folder = joinpath(@__DIR__, machines_folder_name)
 mkpath(machines_folder)
 
+machines_folder_plot_name = joinpath("..", "machines_plot")
+machines_folder_plot = joinpath(@__DIR__, machines_folder_plot_name)
+mkpath(machines_folder_plot)
+
 plots_folder_name = joinpath("..", "plots")
 plots_folder = joinpath(@__DIR__, plots_folder_name)
 mkpath(plots_folder)
