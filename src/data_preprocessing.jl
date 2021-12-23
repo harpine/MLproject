@@ -25,5 +25,5 @@ function preprocess_data(training_data, test_data)
     sort_data_non_std(training_filled_x, training_filled_y, test_data)
 
     write_normalized_regularized_data(deserialize(joinpath(dataset_folder, regularized_training_filled_x_name)), deserialize(joinpath(dataset_folder, regularized_test_name)))
-    print("The preprocessed files have been saved to : ", dataset_folder_name)
+    print("The preprocessed files have been saved to : ", dataset_folder_name, "\n")
 end

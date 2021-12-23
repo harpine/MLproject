@@ -1,6 +1,6 @@
 include("datasets.jl")
-machine_subname = "sorted_mlp_2layers_6_CV20"
-mach_Neuralnetwork_tuned = machine(joinpath(machines_folder,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"))
+machine_subname = "test_15_epochs"
+mach_Neuralnetwork_tuned = machine(joinpath(machines_folder,"mach_Neuralnetwork_" * machine_subname * ".jlso"))
 
 #First way to plot losses : 
 

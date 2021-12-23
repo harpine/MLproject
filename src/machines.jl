@@ -169,12 +169,15 @@ function short_neuralnetwork(machine_subname)
     tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, 
                                             resampling= CV(nfolds = 5), 
                                             measure = auc, 
-                                            range = [range(model_Neuralnetwork, :epochs, values = [24,25,26]), 
-                                                    range(model_Neuralnetwork, :batch_size, values = [80,85,90]), 
-                                                    range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), 
-                                                    range(model_Neuralnetwork, :(builder.dropout), values = [0.4,0.5,0.6])]
+                                            range = [range(model_Neuralnetwork, :epochs, values = [20,21,22,23,24,25,26,27,28]), range(model_Neuralnetwork, :batch_size, values = [80,85,90,95]), range(model_Neuralnetwork, :(builder.n_hidden), values = [23,24,25,26,27]), range(model_Neuralnetwork, :(builder.dropout), values = [0.0,0.2,0.5,0.7])]#, acceleration=CUDALibs()) #, tune: optimiser, 
+                                            # range = [range(model_Neuralnetwork, :epochs, values = [24,25,26]), 
+                                            #         range(model_Neuralnetwork, :batch_size, values = [80,85,90]), 
+                                            #         range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), 
+                                            #         range(model_Neuralnetwork, :(builder.dropout), values = [0.4,0.5,0.6])]
                                             )
 
+
+                                               
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)
 
     # Saving machine
@@ -220,17 +223,18 @@ function  mlp_neuralnetwork(machine_subname)
     data_test = regularized_test_std
 
     model_Neuralnetwork = NeuralNetworkClassifier(
-                                            builder = MLJFlux.MLP(hidden=(100,3)),
+                                            builder = MLJFlux.MLP(hidden=(100,30)),
                                             optimiser = ADAMW(),
                                             lambda = 0.0,
-                                            alpha = 0.0, batch_size = 32, finaliser = NNlib.softmax, epochs = 35)
+                                            alpha = 0.0, batch_size = 32, finaliser = NNlib.softmax, epochs = 15)
     
     
     tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, 
-                                            resampling= CV(nfolds = 10), 
+                                            resampling= CV(nfolds = 20), 
                                             measure = auc, 
-                                            range = [range(model_Neuralnetwork, :epochs, values = [28,30,35]),
-                                                    range(model_Neuralnetwork, :(builder.hidden), values =[(100,30), (100,40)])]
+                                            range = [range(model_Neuralnetwork, :batch_size, values =[30,31,32])]
+                                            #[range(model_Neuralnetwork, :epochs, values = [28,30,35]),
+                                                    #range(model_Neuralnetwork, :(builder.hidden), values =[(100,30), (100,40)])]
                                             )
 
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)

@@ -31,3 +31,7 @@ end
 plot!(legend = :inside, xlabel = "log(λ)", size = (1000, 700))
 gr()
 p
+
+png(p,joinpath("figures","lasso_path_sorted.png"))
+
+#PlotlyBase.savefig(p, joinpath("figure","lasso_path_final.png"))

@@ -1,8 +1,8 @@
 # MLproject - Miniproject BIO-322, J.Brea
-## Helena Binkovà & Aline Brunner, team HBBA
+## Helena Binková & Aline Brunner, team HBBA
 
 The aim of the project is to predict the probability of rain on the next day in Pully, given the meteorogical measurements in different measure stations of Switzerland.
-This project takes the form of a kaggle competition. The data are available here (with access only): \url{https://www.kaggle.com/c/bio322-will-it-rain-tomorrow/overview}.
+This project takes the form of a kaggle competition. The data are available here (with access only): https://www.kaggle.com/c/bio322-will-it-rain-tomorrow/overview.
 The submissions should be a CSV file containing the probability of raining for each row of the test data. 
 
 ## Requirements 
@@ -35,17 +35,17 @@ You can install the dependencies with the command pkg.instantiate(). This comman
 
 ### Scripts
 - `comparison_machines.jl`: permits to create the boxplots to visually compare the machines. 
-- `data_preprocessing.jl`: preprocesses the data and put them in the datasets folder, in serialized format. First, it fills the missing training data. Then it creates a standardized training set, and a normalized one. It also computes a regularized dataset with less predictors, using the Lasso. The same transformations are applied to the test set to obtain corresponding sets. This file uses functions from `sorting_data_regularization.jl`. All the pre-processed data are serialized and saved in the `datasets` folder. 
+- `data_preprocessing.jl`: preprocesses the data and puts them in the datasets folder, in serialized format. First, it fills the missing training data. Then it creates a standardized training set, and a normalized one. It also computes a regularized dataset with less predictors, using the Lasso. The same transformations are applied to the test set to obtain corresponding sets. This file uses functions from `sorting_data_regularization.jl`. All the pre-processed data are serialized and saved in the `datasets` folder. 
 - `datasets.jl`: retrieves the data from serialization, so that they don't have to be preprocessed at each run. 
-- `initialization.jl`: setup the environment from the Manifest.toml and creates the initial folder through `utilities.jl`.
+- `initialization.jl`: setup the environment from the Manifest.toml and creates the initial folders through `utilities.jl`.
 - `losses.jl`: plots the learning curve of the neural network on a validation set.
 - `machines_run.jl`: provides the functions and configurations to run the machines from the main file: `script.jl`.
 - `machines.jl`: contains the five machines that are cited in the report (multiple logistic regression, knn, random forest, neural network with one hidden layer and neural network with two hidden layers). Each machine is wrapped in a function, which tunes the model, saves its resulting machine, shows the fitted parameters, the mean AUC measurements during cross validation, the final error rate on training set and the final AUC. Then it writes the predictions in the `ouptuts` folders, the statistics in the corresponding folder and saves the plot of the machine report.
 - `plot_lasso.jl`: permits to show a Lasso path, with the 18 firsts predictors in order of importance. 
-- `save_statistics.jl`: contains different functions to save statistics of the tuned machine, depending on the machine type. The functions with the suffix *old* permitts to save machines statistics that are already saved and for which we don't have the model stored anymore. 
+- `save_statistics.jl`: contains different functions to save statistics of the tuned machine, depending on the machine type. The functions with the suffix *old* permit to save machines statistics that are already saved and for which we don't have the model stored anymore. 
 - `script.jl`: main file of the program. Permits to run the machines with command line given different arguments, using ArgParse. It permits to run all machines, only the best, or only the given one. 
 - `sorting_data_regularization.jl`: provides function to compute the regularized and the normalized datasets. The functions are used in data_preprocessing.jl
-- `utilities.jl`: configuration file. All folders and files name and path are configurable by replacing the given string. It also provides three utilities function to write CSV files in the right folder. 
+- `utilities.jl`: configuration file. All folder and file names and paths are configurable by replacing the given string. It also provides three utility functions to write CSV files in the right folder. 
 - `visualization.jl`: shows the training data in two different forms: a pca biplot and a correlation plot.
 
 
@@ -88,7 +88,7 @@ In order to run the tuning of the machines, please run the following command
 ```
 Where:
 `MACHINES` is the type of machine that will be run. The different possibilities are: `all` (run all in report cited machines), `best` (run the two best submission on kaggle), `logistic_reg`, `knn`, `random_forest`, `short_neuralnetwork` or `mlp_neuralnetwork`. Be aware that certain networks are very long to run! *Default is "best"*
-- `Machine_subname` is the subname of the machine. The given string will be concatenated to the name of the type of the machine.$
+- `Machine_subname` is the subname of the machine. The given string will be concatenated to the name of the type of the machine.
 
 To plot the boxplots of the first best retained models, run:
 ```
