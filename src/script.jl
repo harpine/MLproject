@@ -1,4 +1,4 @@
-include("./datasets.jl")
+include("./utilities.jl")
 include("./data_preprocessing.jl")
 
 function parse_commandline()
@@ -29,7 +29,7 @@ function preparation()
     training_data = CSV.read(joinpath(@__DIR__, original_dataset_folder_name, training_data_name), DataFrame)
     test_data = CSV.read(joinpath(@__DIR__, original_dataset_folder_name, test_data_name), DataFrame)
 
-    print("Preprocessing data:")
+    print("Preprocessing data: \n")
     preprocess_data(training_data, test_data)
 
     include("./machines.jl")

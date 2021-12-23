@@ -226,14 +226,14 @@ function  mlp_neuralnetwork(machine_subname)
                                             builder = MLJFlux.MLP(hidden=(100,30)),
                                             optimiser = ADAMW(),
                                             lambda = 0.0,
-                                            alpha = 0.0, batch_size = 32, finaliser = NNlib.softmax, epochs = 15)
+                                            alpha = 0.0, batch_size = 32, finaliser = NNlib.softmax, epochs = 35)
     
     
     tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, 
-                                            resampling= CV(nfolds = 20), 
+                                            resampling= CV(nfolds = 5), 
                                             measure = auc, 
-                                            range = [range(model_Neuralnetwork, :batch_size, values =[30,31,32])]
-                                            #[range(model_Neuralnetwork, :epochs, values = [28,30,35]),
+                                            range = [#range(model_Neuralnetwork, :epochs, values = [28,30,35]),
+                                                    range(model_Neuralnetwork, :batch_size, values = [30,31,32])]
                                                     #range(model_Neuralnetwork, :(builder.hidden), values =[(100,30), (100,40)])]
                                             )
 

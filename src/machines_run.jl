@@ -1,3 +1,4 @@
+include("./datasets.jl")
 
 machines_dictionnary = Dict("logistic_reg" => machine_subname -> logistic_reg_l2(machine_subname),
                             "knn" => machine_subname -> knn(machine_subname), 
@@ -27,7 +28,7 @@ If you chose to run one specific type of machine, you can specify the string sub
 """
 function run_machines(machines, single_subname  = "tuned") 
     if machines == "all"
-        for (type, func) in x
+        for (type, func) in machines_dictionnary
             run_machine(type, single_subname)
         end
     elseif machines == "best"

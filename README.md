@@ -76,19 +76,14 @@ From the `MLproject` folder, run
 ```
 Have a look at the paths and file names defined in `utilities.jl`. Feel free to change them to your conveniance, in particular the `original_dataset_folder_name` which corresponds to the relative path to the datasets (training & test) folder. In case you don't already have a folder containing them, an empty folder (`datasets`) has been created in the actual repository to allow you to put your data inside. 
 
-In order to preprocess the data, run the following command:
-```
-~/path/to/<Julia directory>/bin/julia src/data_preprocessing.jl
-```
-
 In order to run the tuning of the machines, please run the following command 
 
 ```
 ~/path/to/<Julia directory>/bin/julia src/script.jl --machines MACHINES --machine_subname MACHINE_SUBNAME
 ```
 Where:
-`MACHINES` is the type of machine that will be run. The different possibilities are: `all` (run all in report cited machines), `best` (run the two best submission on kaggle), `logistic_reg`, `knn`, `random_forest`, `short_neuralnetwork` or `mlp_neuralnetwork`. Be aware that certain networks are very long to run! *Default is "best"*
-- `Machine_subname` is the subname of the machine. The given string will be concatenated to the name of the type of the machine.
+- `MACHINES` is the type of machine that will be run. The different possibilities are: `all` (run all in report cited machines), `best` (run the two best submission on kaggle), `logistic_reg`, `knn`, `random_forest`, `short_neuralnetwork` or `mlp_neuralnetwork`. Be aware that certain networks are very long to run! *Default is "best"*
+- `Machine_subname` is the subname of the machine. The given string will be concatenated to the name of the type of the machine. This is to specify only if you want to run a specific machine. 
 
 To plot the boxplots of the first best retained models, run:
 ```
