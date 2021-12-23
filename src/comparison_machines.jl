@@ -3,8 +3,6 @@ include("datasets.jl")
 import PlotlyJS
 import PlotlyBase: savefig
 
-per_fold_2layers = report(mach_2layers).best_history_entry.per_fold[1]
-
 machine_subname = "sorted_mlp_2layers_6_CV5"
 mach_cv5layers= machine(joinpath(machines_folder_plot,"mach_Neuralnetwork_tuned_" * machine_subname * ".jlso"))
 
