@@ -1,0 +1,2 @@
+machine,tuning_parameters,model_report,n_trees,max_depth,min_samples_split,validation_measure_auc,error_rate
+test_CV20_3,"MLJBase.NominalRange{Int64}[NominalRange(n_trees = 1850, 1900, 1950), NominalRange(max_depth = 95, 100, 105, ...)]",RandomForestClassifier,1950,100,10,0.924200328,0.005037783

@@ -1,0 +1,2 @@
+machine,tuning_parameters,model_report,epochs,batch_size,lambda,alpha,n_hidden,hiddden,dropout,validation_measure_auc,error_rate
+sorted_short10_1_CV20,"MLJBase.NominalRange{T, 3} where T[NominalRange(epochs = 24, 25, 26), NominalRange(batch_size = 80, 85, 90), NominalRange(builder.n_hidden = 25, 26, 27), NominalRange(builder.dropout = 0.2, 0.5, 0.7)]","NeuralNetworkClassifier{Short,…}",26,80,0.0,0.0,25,not appliable,0.5,0.9270693498816618,0.11209068010075567

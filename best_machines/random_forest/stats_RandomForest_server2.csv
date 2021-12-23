@@ -1,2 +1,0 @@
-machine,tuning_parameters,model_report,n_trees,max_depth,min_samples_split,validation_measure_auc,error_rate
-RandomForest_server2, ,RandomForestClassifier,1722,56,5,0.9235594587363597,0.0006297229219143577

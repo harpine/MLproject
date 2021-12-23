@@ -110,7 +110,7 @@ function random_forest(machine_subname)
     tuned_model_RandomForest = TunedModel(model = model_RandomForest,
                                     tuning =  Grid(),
                                     resampling = CV(nfolds = 20),
-                                    range = [range(model_RandomForest, :n_trees, values = [1859, 1900, 1950]),
+                                    range = [range(model_RandomForest, :n_trees, values = [1850, 1900, 1950]),
                                     range(model_RandomForest, :max_depth , values = [95, 100, 105, 110])],
                                     measure = auc)
 
@@ -169,11 +169,10 @@ function short_neuralnetwork(machine_subname)
     tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, 
                                             resampling= CV(nfolds = 5), 
                                             measure = auc, 
-                                            range = [range(model_Neuralnetwork, :epochs, values = [20,21,22,23,24,25,26,27,28]), range(model_Neuralnetwork, :batch_size, values = [80,85,90,95]), range(model_Neuralnetwork, :(builder.n_hidden), values = [23,24,25,26,27]), range(model_Neuralnetwork, :(builder.dropout), values = [0.0,0.2,0.5,0.7])]#, acceleration=CUDALibs()) #, tune: optimiser, 
-                                            # range = [range(model_Neuralnetwork, :epochs, values = [24,25,26]), 
-                                            #         range(model_Neuralnetwork, :batch_size, values = [80,85,90]), 
-                                            #         range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), 
-                                            #         range(model_Neuralnetwork, :(builder.dropout), values = [0.4,0.5,0.6])]
+                                            range = [range(model_Neuralnetwork, :epochs, values = [24,25,26]), 
+                                                    range(model_Neuralnetwork, :batch_size, values = [80,85,90]), 
+                                                    range(model_Neuralnetwork, :(builder.n_hidden), values = [25,26,27]), 
+                                                    range(model_Neuralnetwork, :(builder.dropout), values = [0.2,0.5,0.7])]
                                             )
 
 
@@ -230,11 +229,10 @@ function  mlp_neuralnetwork(machine_subname)
     
     
     tuned_model_Neuralnetwork = TunedModel(model = model_Neuralnetwork, 
-                                            resampling= CV(nfolds = 5), 
+                                            resampling= CV(nfolds = 10), 
                                             measure = auc, 
-                                            range = [#range(model_Neuralnetwork, :epochs, values = [28,30,35]),
-                                                    range(model_Neuralnetwork, :batch_size, values = [30,31,32])]
-                                                    #range(model_Neuralnetwork, :(builder.hidden), values =[(100,30), (100,40)])]
+                                            range = [range(model_Neuralnetwork, :epochs, values = [28,30,35]),
+                                                    range(model_Neuralnetwork, :(builder.hidden), values =[(100,30), (100,40)])]
                                             )
 
     mach_Neuralnetwork_tuned = fit!(machine(tuned_model_Neuralnetwork, data_training_x, data_training_y), verbosity = 4)

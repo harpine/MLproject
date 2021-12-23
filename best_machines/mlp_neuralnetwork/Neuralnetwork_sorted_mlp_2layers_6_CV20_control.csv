@@ -1,0 +1,2 @@
+machine,tuning_parameters,model_report,epochs,batch_size,lambda,alpha,n_hidden,hiddden,dropout,validation_measure_auc,error_rate
+sorted_mlp_2layers_6_CV20_control,"MLJBase.NominalRange[NominalRange(epochs = 28, 30, 35), NominalRange(builder.hidden = (100, 30), (100, 40))]","NeuralNetworkClassifier{MLP,…}",35,32,0.0,0.0,not appliable,"(100, 30)",not appliable,0.9263860454915577,0.0

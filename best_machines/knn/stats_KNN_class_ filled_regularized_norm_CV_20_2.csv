@@ -1,0 +1,2 @@
+machine,tuning_parameters,model_report,K,validation_measure_auc,error_rate,kaggle
+filled_regularized_norm_CV_20_2,"NumericRange(23 ≤ K ≤ 30; origin=26.5, unit=3.5)",KNNClassifier,25,0.915033317,0.152707809,0.94268
