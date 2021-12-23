@@ -32,6 +32,11 @@ stat_folder_name = joinpath("..", "statistics")
 stat_folder = joinpath(@__DIR__, stat_folder_name)
 mkpath(stat_folder)
 
+loss_folder_name = joinpath("..", "losses")
+losses_folder = joinpath(@__DIR__, loss_folder_name)
+mkpath(stat_folder)
+
+
 # File names to store the pre-processed data and retrieve them to run the programm.
 
 training_x_name = "training_filled_x"

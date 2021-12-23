@@ -6,9 +6,7 @@ include("./utilities.jl")
 import GLMNet: glmnet
 
 function sort_data_std(training_filled_x_std, training_filled_y, test_data_std)
-    
-    # weather_input = select(weather, Not(:LUZ_wind_peak))[1:end-5, :]
-    # weather_output = weather.LUZ_wind_peak[6:end]
+
     training_fits = glmnet(Array(training_filled_x_std), training_filled_y)
 
     lambda = log.(training_fits.lambda)
@@ -26,8 +24,7 @@ function sort_data_std(training_filled_x_std, training_filled_y, test_data_std)
     plot!(legend = :outertopright, xlabel = "log(λ)", size = (700, 400))
     gr()
     p
-    #savefig(joinpath(plots_folder, "regularization_l1.png"))
-
+    
     regularized_training_filled_x_std = select(training_filled_x_std, Not(small))
     regularized_test_x_std = select(test_data_std, Not(small))
 
@@ -62,10 +59,6 @@ function sort_data_non_std(training_filled_x, training_filled_y, test_data)
     write_preprocess_data(regularized_training_filled_x_name, regularized_training_filled_x)
     write_preprocess_data(regularized_test_name, regularized_test_x)
 end
-
-
-#sort_data_std(training_filled_x_std, training_filled_y)
-# sort_data_non_std(training_filled_x, training_filled_y)
 
 
 
